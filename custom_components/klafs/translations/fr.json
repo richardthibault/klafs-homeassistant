@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configurer Klafs Sauna",
+        "description": "Entrez vos identifiants Klafs Sauna App",
+        "data": {
+          "username": "Nom d'utilisateur",
+          "password": "Mot de passe"
+        }
+      },
+      "select_saunas": {
+        "title": "Sélectionner les saunas",
+        "description": "Sélectionnez les saunas à ajouter à Home Assistant. {num_saunas} sauna(s) trouvé(s).",
+        "data": {
+          "saunas": "Saunas"
+        }
+      },
+      "configure_pins": {
+        "title": "Configurer les codes PIN",
+        "description": "Entrez le code PIN pour chaque sauna (optionnel mais requis pour allumer le sauna à distance).\n\nSaunas sélectionnés :\n{sauna_list}",
+        "data": {}
+      }
+    },
+    "error": {
+      "invalid_auth": "Identifiants invalides",
+      "no_saunas": "Aucun sauna trouvé sur ce compte",
+      "no_sauna_selected": "Veuillez sélectionner au moins un sauna",
+      "unknown": "Erreur inattendue"
+    },
+    "abort": {
+      "already_configured": "Ce compte est déjà configuré"
+    }
+  }
+}

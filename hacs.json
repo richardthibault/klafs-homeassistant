@@ -1,0 +1,7 @@
+{
+  "name": "Klafs Sauna",
+  "render_readme": true,
+  "domains": ["climate", "sensor", "switch"],
+  "iot_class": "cloud_polling",
+  "homeassistant": "2023.1.0"
+}

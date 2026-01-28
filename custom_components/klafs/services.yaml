@@ -1,0 +1,63 @@
+power_on_with_pin:
+  name: Allumer avec code PIN
+  description: Allume le sauna avec un code PIN spécifique
+  target:
+    entity:
+      integration: klafs
+      domain: climate
+  fields:
+    pin:
+      name: Code PIN
+      description: Code PIN à 4 chiffres configuré sur le sauna
+      required: true
+      example: "1234"
+      selector:
+        text:
+
+set_humidity_level:
+  name: Définir le niveau d'humidité
+  description: Définit le niveau d'humidité pour le mode SANARIUM (1-10)
+  target:
+    entity:
+      integration: klafs
+      domain: climate
+  fields:
+    humidity_level:
+      name: Niveau d'humidité
+      description: Niveau d'humidité de 1 (faible) à 10 (élevé)
+      required: true
+      example: 7
+      selector:
+        number:
+          min: 1
+          max: 10
+          step: 1
+
+set_start_time:
+  name: Définir l'heure de démarrage
+  description: Programme l'heure de démarrage du sauna (préchauffe)
+  target:
+    entity:
+      integration: klafs
+      domain: climate
+  fields:
+    hour:
+      name: Heure
+      description: Heure de démarrage (0-23)
+      required: true
+      example: 18
+      selector:
+        number:
+          min: 0
+          max: 23
+          step: 1
+    minute:
+      name: Minute
+      description: Minute de démarrage (0-59)
+      required: true
+      example: 30
+      selector:
+        number:
+          min: 0
+          max: 59
+          step: 1

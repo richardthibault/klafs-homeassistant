@@ -1,0 +1,15 @@
+{
+    "domain":  "klafs",
+    "name":  "Klafs Sauna",
+    "codeowners":  [
+                       "@richardthibault"
+                   ],
+    "config_flow":  true,
+    "documentation":  "https://github.com/richardthibault/klafs-homeassistant",
+    "iot_class":  "cloud_polling",
+    "issue_tracker":  "https://github.com/richardthibault/klafs-homeassistant/issues",
+    "requirements":  [
+
+                     ],
+    "version":  "1.0.0"
+}
