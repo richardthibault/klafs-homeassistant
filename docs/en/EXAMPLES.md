@@ -1,10 +1,10 @@
-**Lire dans d'autres langues :** [English](docs/en/EXAMPLES.md) | [Français](EXAMPLES.md) | [Deutsch](docs/de/EXAMPLES.md) | [Español](docs/es/EXAMPLES.md)
+**Read in other languages:** [English](../en/EXAMPLES.md) | [Français](../../EXAMPLES.md) | [Deutsch](../de/EXAMPLES.md) | [Español](../es/EXAMPLES.md)
 
-# Exemples d'utilisation - Klafs Sauna
+# Usage Examples - Klafs Sauna
 
-## Services disponibles
+## Available Services
 
-### 1. Allumer avec code PIN
+### 1. Power On with PIN Code
 
 ```yaml
 service: klafs.power_on_with_pin
@@ -14,7 +14,7 @@ data:
   pin: "1234"
 ```
 
-### 2. Définir le niveau d'humidité (SANARIUM)
+### 2. Set Humidity Level (SANARIUM)
 
 ```yaml
 service: klafs.set_humidity_level
@@ -24,7 +24,7 @@ data:
   humidity_level: 7  # 1-10
 ```
 
-### 3. Programmer l'heure de démarrage
+### 3. Schedule Start Time
 
 ```yaml
 service: klafs.set_start_time
@@ -35,13 +35,13 @@ data:
   minute: 30
 ```
 
-## Automatisations avancées
+## Advanced Automations
 
-### Routine matinale week-end
+### Weekend Morning Routine
 
 ```yaml
 automation:
-  - alias: "Sauna matinal week-end"
+  - alias: "Weekend Morning Sauna"
     trigger:
       - platform: time
         at: "08:00:00"
@@ -51,14 +51,14 @@ automation:
           - sat
           - sun
       - condition: state
-        entity_id: person.vous
+        entity_id: person.you
         state: "home"
     action:
-      # Activer mode SANARIUM
+      # Enable SANARIUM mode
       - service: switch.turn_on
         target:
           entity_id: switch.klafs_sauna_sanarium_mode
-      # Régler température et humidité
+      # Set temperature and humidity
       - service: climate.set_temperature
         target:
           entity_id: climate.klafs_sauna
@@ -69,21 +69,21 @@ automation:
           entity_id: climate.klafs_sauna
         data:
           humidity_level: 8
-      # Allumer
+      # Turn on
       - service: climate.turn_on
         target:
           entity_id: climate.klafs_sauna
 ```
 
-### Préchauffage intelligent basé sur la localisation
+### Smart Preheating Based on Location
 
 ```yaml
 automation:
-  - alias: "Préchauffer sauna en rentrant"
+  - alias: "Preheat Sauna When Coming Home"
     trigger:
       - platform: zone
-        entity_id: person.vous
-        zone: zone.travail
+        entity_id: person.you
+        zone: zone.work
         event: leave
     condition:
       - condition: time
@@ -97,14 +97,14 @@ automation:
           - thu
           - fri
     action:
-      # Calculer l'heure d'arrivée (30 min de trajet)
+      # Calculate arrival time (30 min commute)
       - service: klafs.set_start_time
         target:
           entity_id: climate.klafs_sauna
         data:
           hour: "{{ now().hour }}"
           minute: "{{ (now().minute + 30) % 60 }}"
-      # Régler en mode Sauna classique
+      # Set to classic Sauna mode
       - service: switch.turn_off
         target:
           entity_id: switch.klafs_sauna_sanarium_mode
@@ -119,14 +119,14 @@ automation:
       # Notification
       - service: notify.mobile_app
         data:
-          message: "Sauna en préchauffage, prêt à votre arrivée !"
+          message: "Sauna preheating, ready when you arrive!"
 ```
 
-### Extinction automatique après utilisation
+### Automatic Shutdown After Use
 
 ```yaml
 automation:
-  - alias: "Éteindre sauna après 2h"
+  - alias: "Turn Off Sauna After 2 Hours"
     trigger:
       - platform: state
         entity_id: sensor.klafs_sauna_status
@@ -139,14 +139,14 @@ automation:
           entity_id: climate.klafs_sauna
       - service: notify.mobile_app
         data:
-          message: "Sauna éteint automatiquement après 2h"
+          message: "Sauna automatically turned off after 2 hours"
 ```
 
-### Alerte si sauna allumé et personne à la maison
+### Alert if Sauna is On and Nobody Home
 
 ```yaml
 automation:
-  - alias: "Alerte sauna allumé sans personne"
+  - alias: "Alert Sauna On Without Anyone Home"
     trigger:
       - platform: state
         entity_id: climate.klafs_sauna
@@ -156,19 +156,19 @@ automation:
     condition:
       - condition: state
         entity_id: zone.home
-        state: "0"  # Personne à la maison
+        state: "0"  # Nobody home
     action:
       - service: notify.mobile_app
         data:
-          message: "⚠️ Le sauna est allumé mais personne n'est à la maison !"
+          message: "⚠️ The sauna is on but nobody is home!"
           data:
             actions:
               - action: "TURN_OFF_SAUNA"
-                title: "Éteindre"
+                title: "Turn Off"
               - action: "IGNORE"
-                title: "Ignorer"
+                title: "Ignore"
 
-  - alias: "Action éteindre sauna"
+  - alias: "Action Turn Off Sauna"
     trigger:
       - platform: event
         event_type: mobile_app_notification_action
@@ -180,12 +180,12 @@ automation:
           entity_id: climate.klafs_sauna
 ```
 
-### Programme hebdomadaire
+### Weekly Schedule
 
 ```yaml
 automation:
-  # Lundi, Mercredi, Vendredi : Sauna classique
-  - alias: "Sauna classique MWF"
+  # Monday, Wednesday, Friday: Classic Sauna
+  - alias: "Classic Sauna MWF"
     trigger:
       - platform: time
         at: "19:00:00"
@@ -208,8 +208,8 @@ automation:
         target:
           entity_id: climate.klafs_sauna
 
-  # Mardi, Jeudi : SANARIUM doux
-  - alias: "SANARIUM doux TT"
+  # Tuesday, Thursday: Gentle SANARIUM
+  - alias: "Gentle SANARIUM TT"
     trigger:
       - platform: time
         at: "19:00:00"
@@ -237,14 +237,14 @@ automation:
           entity_id: climate.klafs_sauna
 ```
 
-### Intégration avec capteur de présence
+### Integration with Presence Sensor
 
 ```yaml
 automation:
-  - alias: "Démarrer sauna avec présence"
+  - alias: "Start Sauna with Presence"
     trigger:
       - platform: state
-        entity_id: binary_sensor.presence_salle_de_bain
+        entity_id: binary_sensor.presence_bathroom
         to: "on"
         for:
           minutes: 5
@@ -261,16 +261,16 @@ automation:
           entity_id: climate.klafs_sauna
 ```
 
-## Cartes Lovelace
+## Lovelace Cards
 
-### Carte simple
+### Simple Card
 
 ```yaml
 type: thermostat
 entity: climate.klafs_sauna
 ```
 
-### Carte détaillée
+### Detailed Card
 
 ```yaml
 type: vertical-stack
@@ -280,23 +280,23 @@ cards:
   - type: entities
     entities:
       - entity: sensor.klafs_sauna_temperature
-        name: Température actuelle
+        name: Current Temperature
       - entity: sensor.klafs_sauna_humidity
-        name: Humidité
+        name: Humidity
       - entity: sensor.klafs_sauna_status
-        name: Statut
+        name: Status
       - entity: switch.klafs_sauna_sanarium_mode
-        name: Mode SANARIUM
+        name: SANARIUM Mode
 ```
 
-### Carte avec contrôles avancés
+### Card with Advanced Controls
 
 ```yaml
 type: vertical-stack
 cards:
   - type: thermostat
     entity: climate.klafs_sauna
-    name: Contrôle Sauna
+    name: Sauna Control
   
   - type: horizontal-stack
     cards:
@@ -328,16 +328,16 @@ cards:
   - type: entities
     entities:
       - entity: sensor.klafs_sauna_temperature
-        name: Température
+        name: Temperature
         icon: mdi:thermometer
       - entity: sensor.klafs_sauna_humidity
-        name: Humidité
+        name: Humidity
         icon: mdi:water-percent
       - entity: sensor.klafs_sauna_status
-        name: Statut
+        name: Status
 ```
 
-### Carte avec slider d'humidité
+### Card with Humidity Slider
 
 ```yaml
 type: vertical-stack
@@ -354,20 +354,20 @@ cards:
       entities:
         - type: custom:slider-entity-row
           entity: input_number.sauna_humidity
-          name: Humidité SANARIUM
+          name: SANARIUM Humidity
           min: 1
           max: 10
           step: 1
 ```
 
-## Scripts utiles
+## Useful Scripts
 
-### Script mode SANARIUM
+### SANARIUM Mode Script
 
 ```yaml
 script:
   sanarium_mode:
-    alias: "Activer mode SANARIUM"
+    alias: "Activate SANARIUM Mode"
     sequence:
       - service: switch.turn_on
         target:
@@ -387,12 +387,12 @@ script:
           entity_id: climate.klafs_sauna
 ```
 
-### Script sauna finlandais
+### Finnish Sauna Script
 
 ```yaml
 script:
   finnish_sauna:
-    alias: "Sauna Finlandais"
+    alias: "Finnish Sauna"
     sequence:
       - service: switch.turn_off
         target:
@@ -407,28 +407,28 @@ script:
           entity_id: climate.klafs_sauna
 ```
 
-### Script arrêt d'urgence
+### Emergency Stop Script
 
 ```yaml
 script:
   sauna_emergency_stop:
-    alias: "Arrêt d'urgence sauna"
+    alias: "Sauna Emergency Stop"
     sequence:
       - service: climate.turn_off
         target:
           entity_id: climate.klafs_sauna
       - service: notify.all_devices
         data:
-          message: "🚨 Sauna éteint en urgence"
+          message: "🚨 Sauna emergency shutdown"
 ```
 
-## Intégration avec Google Assistant / Alexa
+## Integration with Google Assistant / Alexa
 
-### Scènes pour commandes vocales
+### Scenes for Voice Commands
 
 ```yaml
 scene:
-  - name: "Sauna Classique"
+  - name: "Classic Sauna"
     entities:
       climate.klafs_sauna:
         state: heat
@@ -436,7 +436,7 @@ scene:
       switch.klafs_sauna_sanarium_mode:
         state: off
 
-  - name: "Sauna Doux"
+  - name: "Gentle Sauna"
     entities:
       climate.klafs_sauna:
         state: heat
@@ -445,7 +445,7 @@ scene:
         state: on
 ```
 
-Commandes vocales :
-- "Ok Google, active la scène Sauna Classique"
-- "Alexa, éteins le sauna"
-- "Ok Google, règle le sauna à 80 degrés"
+Voice commands:
+- "Ok Google, activate Classic Sauna scene"
+- "Alexa, turn off the sauna"
+- "Ok Google, set the sauna to 80 degrees"

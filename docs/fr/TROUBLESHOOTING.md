@@ -1,5 +1,3 @@
-**Lire dans d'autres langues :** [English](docs/en/TROUBLESHOOTING.md) | [Français](TROUBLESHOOTING.md) | [Deutsch](docs/de/TROUBLESHOOTING.md) | [Español](docs/es/TROUBLESHOOTING.md)
-
 # Guide de dépannage - Klafs Sauna
 
 ## Problèmes d'authentification

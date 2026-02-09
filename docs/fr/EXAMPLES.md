@@ -1,5 +1,3 @@
-**Lire dans d'autres langues :** [English](docs/en/EXAMPLES.md) | [Français](EXAMPLES.md) | [Deutsch](docs/de/EXAMPLES.md) | [Español](docs/es/EXAMPLES.md)
-
 # Exemples d'utilisation - Klafs Sauna
 
 ## Services disponibles
