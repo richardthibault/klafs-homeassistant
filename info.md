@@ -1,6 +1,6 @@
-# Klafs Sauna for Home Assistant | pour Home Assistant | für Home Assistant
+# Klafs Sauna for Home Assistant | pour Home Assistant | für Home Assistant | para Home Assistant
 
-[🇬🇧 English](#english) | [🇫🇷 Français](#français) | [🇩🇪 Deutsch](#deutsch)
+[🇬🇧 English](#english) | [🇫🇷 Français](#français) | [🇩🇪 Deutsch](#deutsch) | [🇪🇸 Español](#español)
 
 ---
 
@@ -160,4 +160,60 @@ Steuern Sie Ihre Klafs-Sauna direkt von Home Assistant aus!
 
 ---
 
-**License / Licence / Lizenz:** MIT
+**License / Licence / Lizenz / Licencia:** MIT
+
+---
+
+## Español
+
+¡Controla tu sauna Klafs directamente desde Home Assistant!
+
+### Características
+
+- 🌡️ **Control de temperatura** - Ajusta la temperatura de tu sauna como un termostato
+- 🔥 **Encendido remoto** - Inicia tu sauna antes de llegar a casa
+- 💧 **Modo SANARIUM** - Cambia entre modo Sauna clásico y SANARIUM con control de humedad
+- 📊 **Monitoreo en tiempo real** - Temperatura, humedad y estado actuales
+- 🏠 **Soporte multi-sauna** - Gestiona múltiples saunas desde una sola cuenta
+- 🔐 **Códigos PIN individuales** - Cada sauna puede tener su propio PIN de seguridad
+- ⏰ **Programación horaria** - Programa la hora de inicio de tu sauna
+- 🤖 **Automatizaciones** - Crea escenarios personalizados
+
+### Instalación
+
+#### Vía HACS (Recomendado)
+
+1. Abre HACS en Home Assistant
+2. Haz clic en "Integraciones"
+3. Haz clic en los tres puntos en la esquina superior derecha
+4. Selecciona "Repositorios personalizados"
+5. Añade la URL: `https://github.com/richardthibault/klafs-homeassistant`
+6. Categoría: "Integration"
+7. Busca "Klafs Sauna" e instala
+8. Reinicia Home Assistant
+
+#### Configuración
+
+1. Ve a **Ajustes** > **Dispositivos y servicios**
+2. Haz clic en **+ Añadir integración**
+3. Busca **"Klafs Sauna"**
+4. Sigue los 3 pasos:
+   - Introduce tus credenciales de Klafs Sauna App
+   - Selecciona tus saunas
+   - Configura los códigos PIN (opcional)
+
+### Requisitos
+
+- Home Assistant 2023.1.0 o superior
+- Cuenta de Klafs Sauna App
+- Sauna Klafs con módulo Wi-Fi y opción "KLAFS Sauna App"
+
+### Soporte
+
+- [Documentación completa](https://github.com/richardthibault/klafs-homeassistant)
+- [Reportar un error](https://github.com/richardthibault/klafs-homeassistant/issues)
+- [Foro de Home Assistant](https://community.home-assistant.io)
+
+---
+
+**License / Licence / Lizenz / Licencia:** MIT
