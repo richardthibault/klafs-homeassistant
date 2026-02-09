@@ -189,29 +189,6 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             return data.get("selectedSaunaTemperature")
 
     @property
-    def current_humidity(self) -> int | None:
-        """Return the current humidity (only in SANARIUM mode).
-        
-        Returns None if humidity is invalid (0 or None) to avoid displaying confusing values.
-        """
-        if self._sauna_id not in self.coordinator.data:
-            return None
-        
-        data = self.coordinator.data[self._sauna_id]
-        
-        # Only return humidity in SANARIUM mode
-        if data.get("sanariumSelected"):
-            humidity = data.get("currentHumidity")
-            # Filter out invalid humidity values
-            # 0% is physically impossible (sentinel value like 141°C for temperature)
-            # Return None so HA should display "--" instead of 0%
-            if humidity is None or humidity == 0:
-                return None
-            return humidity
-        
-        return None
-
-    @property
     def target_humidity(self) -> int | None:
         """Return the target humidity as percentage (only in SANARIUM mode).
         
