@@ -11,6 +11,35 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.1.0] - 2026-02-09
+
+### Ajouté
+- **Jeu d'Icônes Personnalisées** : L'intégration inclut maintenant des icônes custom avec le préfixe `klafs:`
+  - `klafs:sauna` - État par défaut/neutre
+  - `klafs:sauna-heating` - Sauna en chauffe (avec ondes de chaleur)
+  - `klafs:sauna-ready` - Sauna prêt à l'emploi (thermomètre plein + coche)
+  - `klafs:sauna-off` - Sauna éteint (éléments grisés)
+  - Les icônes changent automatiquement selon l'état du sauna
+  - Toutes les icônes utilisent `fill="currentColor"` pour la compatibilité thème
+  - Fonctionne avec Home Assistant ≥ 2023.x
+- **Documentation Multilingue** : Documentation des icônes custom en 4 langues (EN/FR/DE/ES)
+- **Mapping Automatique des Icônes** : Les icônes changent automatiquement selon l'état de l'entité
+  - Aucune configuration nécessaire
+  - Fonctionne avec les entités sensor et climate
+
+### Modifié
+- Déplacement des icônes de `icons/` vers `frontend/icons/`
+- Les icônes sont maintenant servies comme fichiers statiques via `/local/klafs/icons/`
+- Ajout de `icon_mapping.py` pour la gestion centralisée des états d'icônes
+
+### Technique
+- Ajout de `frontend/iconset.js` pour l'enregistrement des icônes dans le frontend Home Assistant
+- Mise à jour de `__init__.py` pour enregistrer les chemins statiques et charger l'iconset
+- Mise à jour de `sensor.py` et `climate.py` pour utiliser des propriétés d'icônes dynamiques
+- Les icônes s'adaptent automatiquement aux thèmes clair/foncé
+
+---
+
 ## [1.0.3] - 2026-02-09
 
 ### Corrigé

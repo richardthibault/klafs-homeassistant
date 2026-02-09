@@ -11,6 +11,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.0] - 2026-02-09
+
+### Added
+- **Custom Icon Set**: Integration now includes custom icons with `klafs:` prefix
+  - `klafs:sauna` - Default/neutral state
+  - `klafs:sauna-heating` - Sauna is heating up (with heat waves)
+  - `klafs:sauna-ready` - Sauna is ready for use (full thermometer + checkmark)
+  - `klafs:sauna-off` - Sauna is turned off (grayed elements)
+  - Icons automatically change based on sauna state
+  - All icons use `fill="currentColor"` for theme compatibility
+  - Works with Home Assistant ≥ 2023.x
+- **Multilingual Documentation**: Custom icons documentation in 4 languages (EN/FR/DE/ES)
+- **Automatic Icon Mapping**: Icons change automatically based on entity state
+  - No configuration required
+  - Works with both sensor and climate entities
+
+### Changed
+- Moved icons from `icons/` to `frontend/icons/` directory
+- Icons are now served as static files via `/local/klafs/icons/`
+- Added `icon_mapping.py` for centralized icon state management
+
+### Technical
+- Added `frontend/iconset.js` for icon registration in Home Assistant frontend
+- Updated `__init__.py` to register static paths and load iconset
+- Updated `sensor.py` and `climate.py` to use dynamic icon properties
+- Icons adapt to light/dark themes automatically
+
+---
+
 ## [1.0.3] - 2026-02-09
 
 ### Fixed
