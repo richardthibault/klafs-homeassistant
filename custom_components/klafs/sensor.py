@@ -158,14 +158,14 @@ class KlafsSaunaStatusSensor(CoordinatorEntity, SensorEntity):
     def icon(self) -> str:
         """Return the icon."""
         if self._sauna_id not in self.coordinator.data:
-            return "mdi:sauna"
+            return "klafs:sauna"
 
         data = self.coordinator.data[self._sauna_id]
         if data.get("isReadyForUse"):
-            return "mdi:check-circle"
+            return "klafs:sauna-ready"
         elif data.get("isPoweredOn"):
-            return "mdi:fire"
+            return "klafs:sauna-heating"
         elif not data.get("isConnected"):
             return "mdi:cloud-off-outline"
         else:
-            return "mdi:sauna"
+            return "klafs:sauna-off"

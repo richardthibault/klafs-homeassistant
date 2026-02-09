@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Convertir SVG en PNG</title>
+    <style>
+        body { font-family: Arial; padding: 40px; text-align: center; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        button { padding: 15px 30px; font-size: 16px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; background: #007bff; color: white; }
+        button:hover { background: #0056b3; }
+        #preview { margin: 20px 0; }
+        canvas { border: 2px solid #ddd; border-radius: 8px; }
+        .info { margin: 20px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #007bff; border-radius: 4px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧖 Convertir Icône Sauna en PNG</h1>
+        
+        <div class="info">
+            <strong>Instructions :</strong>
+            <ol>
+                <li>Clique sur le bouton pour générer le PNG</li>
+                <li>L'image sera téléchargée automatiquement</li>
+                <li>Répète pour les 3 tailles nécessaires</li>
+            </ol>
+        </div>
+
+        <div id="preview">
+            <canvas id="canvas256" width="256" height="256" style="display:none;"></canvas>
+            <canvas id="canvas512" width="512" height="512" style="display:none;"></canvas>
+        </div>
+
+        <button onclick="downloadPNG(256, 'icon.png')">📥 Télécharger icon.png (256x256)</button><br>
+        <button onclick="downloadPNG(256, 'custom_components/klafs/icon.png')">📥 Télécharger icon.png pour HA (256x256)</button><br>
+        <button onclick="downloadPNG(512, 'custom_components/klafs/icon@2x.png')">📥 Télécharger icon@2x.png (512x512)</button>
+
+        <div id="preview-display" style="margin-top: 30px;">
+            <p><strong>Aperçu :</strong></p>
+            <img id="preview-img" style="max-width: 256px; border: 2px solid #ddd; border-radius: 8px;">
+        </div>
+    </div>
+
+    <script>
+        const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="warmGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F7931E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="32" fill="url(#warmGradient)"/>
+  <rect x="76" y="140" width="104" height="52" rx="8" fill="#333"/>
+  <rect x="86" y="148" width="8" height="36" fill="#888"/>
+  <rect x="106" y="148" width="8" height="36" fill="#888"/>
+  <rect x="126" y="148" width="8" height="36" fill="#888"/>
+  <rect x="146" y="148" width="8" height="36" fill="#888"/>
+  <rect x="166" y="148" width="8" height="36" fill="#888"/>
+  <circle cx="96" cy="110" r="22" fill="#555"/>
+  <circle cx="160" cy="110" r="22" fill="#555"/>
+  <circle cx="128" cy="80" r="26" fill="#555"/>
+  <path d="M60,60 Q60,40 70,40 T80,60" stroke="white" fill="none" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <path d="M90,50 Q90,30 100,30 T110,50" stroke="white" fill="none" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <path d="M146,50 Q146,30 156,30 T166,50" stroke="white" fill="none" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <path d="M176,60 Q176,40 186,40 T196,60" stroke="white" fill="none" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+  <rect x="32" y="200" width="192" height="24" rx="8" fill="#8B4513"/>
+</svg>`;
+
+        function downloadPNG(size, filename) {
+            const canvas = size === 256 ? document.getElementById('canvas256') : document.getElementById('canvas512');
+            const ctx = canvas.getContext('2d');
+            
+            // Créer une image depuis le SVG
+            const img = new Image();
+            const blob = new Blob([svgString], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            
+            img.onload = function() {
+                // Dessiner sur le canvas
+                ctx.clearRect(0, 0, size, size);
+                ctx.drawImage(img, 0, 0, size, size);
+                
+                // Afficher l'aperçu
+                document.getElementById('preview-img').src = canvas.toDataURL('image/png');
+                
+                // Télécharger
+                canvas.toBlob(function(blob) {
+                    const link = document.createElement('a');
+                    link.download = filename.split('/').pop(); // Prendre juste le nom du fichier
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                }, 'image/png');
+                
+                URL.revokeObjectURL(url);
+            };
+            
+            img.src = url;
+        }
+
+        // Afficher l'aperçu au chargement
+        window.onload = function() {
+            const img = new Image();
+            const blob = new Blob([svgString], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(blob);
+            img.onload = function() {
+                const canvas = document.getElementById('canvas256');
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 256, 256);
+                document.getElementById('preview-img').src = canvas.toDataURL('image/png');
+                URL.revokeObjectURL(url);
+            };
+            img.src = url;
+        };
+    </script>
+</body>
+</html>
