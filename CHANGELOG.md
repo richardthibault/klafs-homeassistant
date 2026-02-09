@@ -11,6 +11,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.20] - 2026-02-09
+
+### Fixed
+- **Complete icon rendering**: Restored full SVG icons with radiator, thermometer, and heat waves
+- Icons now include all visual details: electric heater bars (gray), heating stones, bench, thermometer with fill levels
+- `sauna-heating` shows animated heat waves above stones
+- `sauna-ready` displays checkmark indicator
+- `sauna-off` uses reduced opacity for inactive state
+
+### Technical Details
+- Embedded complete SVG markup in iconset.js (inline approach)
+- Parse SVG to extract innerHTML and viewBox for HA icon API
+- Preserves colors (`currentColor`, `#888`), strokes, and opacity attributes
+- No external SVG files needed (HACS-compatible)
+
+---
+
 ## [1.0.19] - 2026-02-09
 
 ### Fixed

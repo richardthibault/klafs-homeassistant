@@ -11,6 +11,23 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.20] - 2026-02-09
+
+### Corregido
+- **Renderizado completo de iconos**: Restaurados iconos SVG completos con radiador, termómetro y ondas de calor
+- Los iconos ahora incluyen todos los detalles visuales: barras del calentador eléctrico (gris), piedras calientes, banco, termómetro con niveles de llenado
+- `sauna-heating` muestra ondas de calor animadas sobre las piedras
+- `sauna-ready` muestra indicador de checkmark
+- `sauna-off` usa opacidad reducida para estado inactivo
+
+### Detalles técnicos
+- SVG completo embebido en iconset.js (enfoque inline)
+- Parse SVG para extraer innerHTML y viewBox para API de iconos HA
+- Preserva colores (`currentColor`, `#888`), strokes y atributos de opacidad
+- No se necesitan archivos SVG externos (compatible con HACS)
+
+---
+
 ## [1.0.19] - 2026-02-09
 
 ### Corregido

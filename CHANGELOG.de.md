@@ -11,6 +11,23 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.20] - 2026-02-09
+
+### Behoben
+- **Vollständiges Icon-Rendering**: Vollständige SVG-Symbole mit Heizkörper, Thermometer und Hitzewellen wiederhergestellt
+- Symbole enthalten jetzt alle visuellen Details: Elektrische Heizstäbe (grau), Heizsteine, Bank, Thermometer mit Füllständen
+- `sauna-heating` zeigt animierte Hitzewellen über den Steinen
+- `sauna-ready` zeigt Checkmark-Indikator
+- `sauna-off` verwendet reduzierte Deckkraft für inaktiven Zustand
+
+### Technische Details
+- Vollständiges SVG-Markup in iconset.js eingebettet (Inline-Ansatz)
+- Parse SVG um innerHTML und viewBox für HA Icon API zu extrahieren
+- Bewahrt Farben (`currentColor`, `#888`), Strokes und Opacity-Attribute
+- Keine externen SVG-Dateien erforderlich (HACS-kompatibel)
+
+---
+
 ## [1.0.19] - 2026-02-09
 
 ### Behoben
