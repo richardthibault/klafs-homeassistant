@@ -11,6 +11,21 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.19] - 2026-02-09
+
+### Corregido
+- **Compatibilidad dual de API**: Añadido soporte para ambas APIs `customIconsets` y `customIcons`
+- Funciones de iconos síncronas para mejor compatibilidad entre versiones de HA
+- Los iconos ahora funcionan con sistemas de iconos de Home Assistant antiguos y modernos
+
+### Detalles técnicos
+- Registrado con `window.customIconsets["klafs"]` (API heredada)
+- Registrado con `window.customIcons["klafs"]` (API alternativa)
+- Ambos devuelven objetos `{path, viewBox}` de forma síncrona
+- Máxima compatibilidad con versiones HA 2020-2024+
+
+---
+
 ## [1.0.18] - 2026-02-09
 
 ### Corregido
