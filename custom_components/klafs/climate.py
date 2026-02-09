@@ -81,31 +81,17 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
     def available(self) -> bool:
         """Return if entity is available.
         
-        Mark as unavailable when data contains invalid sentinel values:
-        - Temperature > 120°C (141°C sentinel)
-        - Humidity = 0% (invalid sentinel)
+        Only mark as unavailable when sauna is disconnected.
+        Invalid sensor values (141°C, 0%) are handled by returning None
+        in the respective properties, not by marking the whole entity unavailable.
         """
         if self._sauna_id not in self.coordinator.data:
             return False
         
         data = self.coordinator.data[self._sauna_id]
         
-        # Check if sauna is connected
-        if not data.get("isConnected", False):
-            return False
-        
-        # Check for invalid temperature (141°C sentinel)
-        temp = data.get("currentTemperature")
-        if temp is not None and temp > 120:
-            return False
-        
-        # Check for invalid humidity in SANARIUM mode (0% sentinel)
-        if data.get("sanariumSelected"):
-            humidity = data.get("currentHumidity")
-            if humidity is not None and humidity == 0:
-                return False
-        
-        return True
+        # Only mark unavailable if sauna is disconnected
+        return data.get("isConnected", False)
         self._attr_name = "Sauna"
         # Humidity range for SANARIUM: 40-58% (10 levels, 2% steps)
         # Level 1=40%, Level 2=42%, ..., Level 10=58%
