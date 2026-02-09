@@ -69,8 +69,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         self._sauna_id = sauna_id
         self._attr_unique_id = f"{sauna_id}_climate"
         self._attr_name = "Sauna"
-        self._attr_min_humidity = 1
-        self._attr_max_humidity = 10
+        # Humidity is displayed as percentage (0-100%)
+        self._attr_min_humidity = 0
+        self._attr_max_humidity = 100
         
         # Detect available preset modes based on sauna capabilities
         self._detect_available_modes()
@@ -178,7 +179,7 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
 
     @property
     def target_humidity(self) -> int | None:
-        """Return the target humidity (only in SANARIUM mode)."""
+        """Return the target humidity as percentage (only in SANARIUM mode)."""
         if self._sauna_id not in self.coordinator.data:
             return None
         
@@ -186,7 +187,10 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         
         # Only return humidity in SANARIUM mode
         if data.get("sanariumSelected"):
-            return data.get("selectedHumLevel")
+            # Convert level (1-10) to percentage (10-100%)
+            # Level 1 = 10%, Level 10 = 100%
+            level = data.get("selectedHumLevel", 1)
+            return level * 10
         
         return None
 
@@ -257,11 +261,17 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         await self.coordinator.async_refresh()
 
     async def async_set_humidity(self, humidity: int) -> None:
-        """Set new target humidity (SANARIUM mode only)."""
-        # Clamp humidity to valid range (1-10)
-        humidity = max(1, min(10, humidity))
+        """Set new target humidity (SANARIUM mode only).
         
-        await self.coordinator.client.set_humidity(self._sauna_id, humidity)
+        Args:
+            humidity: Target humidity as percentage (0-100%)
+                     Converted to level (1-10) for API
+        """
+        # Convert percentage (0-100%) to level (1-10)
+        # 0-10% = level 1, 11-20% = level 2, ..., 91-100% = level 10
+        level = max(1, min(10, (humidity + 9) // 10))
+        
+        await self.coordinator.client.set_humidity(self._sauna_id, level)
         # Force immediate refresh
         await self.coordinator.async_refresh()
 
