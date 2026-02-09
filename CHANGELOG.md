@@ -11,6 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.10] - 2026-02-09
+
+### Fixed
+- **HACS file whitelist**: Added `files` array to `hacs.json` to explicitly include all files
+- This fixes HACS filtering out non-Python files (SVG, JS) from subdirectories
+- HACS will now install ALL files including `frontend/icons/*.svg`
+
+### Changed
+- Updated `hacs.json` with `files: ["custom_components/klafs/**"]` whitelist
+
+---
+
 ## [1.0.9] - 2026-02-09
 
 ### Fixed

@@ -1,5 +1,8 @@
 {
   "name": "Klafs Sauna",
   "content_in_root": false,
-  "render_readme": true
+  "render_readme": true,
+  "files": [
+    "custom_components/klafs/**"
+  ]
 }
