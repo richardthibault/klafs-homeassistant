@@ -251,25 +251,27 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
 async def _register_custom_icons(hass: HomeAssistant) -> None:
     """Register custom Klafs icons for Home Assistant frontend."""
     try:
-        # Get the path to the frontend directory
+        # Simply load the iconset.js file - it contains inline SVG
+        # No need to register static paths since we use add_extra_js_url with a local file
         integration_path = Path(__file__).parent
         frontend_path = integration_path / "frontend"
+        iconset_file = frontend_path / "iconset.js"
         
-        if not frontend_path.exists():
-            _LOGGER.warning("Frontend directory not found at %s", frontend_path)
+        if not iconset_file.exists():
+            _LOGGER.warning("Iconset file not found at %s", iconset_file)
             return
         
-        # Register static path for frontend directory (contains iconset.js with inline SVG)
-        hass.http.register_static_path(
-            f"/{DOMAIN}",
-            str(frontend_path),
-            cache_headers=False,
-        )
-        _LOGGER.debug("Registered static path: /%s -> %s", DOMAIN, frontend_path)
+        # Read the iconset.js content and inject it directly
+        iconset_content = iconset_file.read_text()
         
-        # Load iconset.js automatically into frontend
-        hass.components.frontend.add_extra_js_url(hass, f"/{DOMAIN}/iconset.js")
-        _LOGGER.debug("Added iconset.js to frontend")
+        # Create a data URL with the JS content
+        import base64
+        encoded = base64.b64encode(iconset_content.encode()).decode()
+        data_url = f"data:text/javascript;base64,{encoded}"
+        
+        # Add to frontend
+        hass.components.frontend.add_extra_js_url(hass, data_url)
+        _LOGGER.debug("Added inline iconset.js to frontend via data URL")
         
         _LOGGER.info("Klafs custom icons registered successfully (inline iconset)")
         _LOGGER.info("Icons available: klafs:sauna, klafs:sauna-heating, klafs:sauna-ready, klafs:sauna-off")

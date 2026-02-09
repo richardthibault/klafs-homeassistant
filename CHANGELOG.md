@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.15] - 2026-02-09
+
+### Fixed
+- **Data URL injection**: Use base64 data URL instead of register_static_path
+- Fixed AttributeError: `'HomeAssistantHTTP' object has no attribute 'register_static_path'`
+- Icons now injected directly into frontend without HTTP server dependency
+
+---
+
 ## [1.0.14] - 2026-02-09
 
 ### Changed
