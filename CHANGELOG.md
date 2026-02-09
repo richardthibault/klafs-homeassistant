@@ -11,6 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.14] - 2026-02-09
+
+### Changed
+- **Inline iconset**: SVG icons now embedded directly in iconset.js
+- Removed `icons/` directory - no longer needed
+- Simplified to single file deployment (frontend/iconset.js only)
+- More reliable: no dependency on HACS copying subdirectories
+
+### Fixed
+- Icons will now deploy correctly via HACS (single JS file, no subdirectories)
+
+---
+
+## [1.0.13] - 2026-02-09
+
+### Fixed
+- **Import error**: Removed non-existent `StaticPathConfig` import
+- Use simple `register_static_path` method that works across all HA versions
+- Fixed ImportError: `cannot import name 'StaticPathConfig'`
+
+---
+
 ## [1.0.12] - 2026-02-09
 
 ### Fixed

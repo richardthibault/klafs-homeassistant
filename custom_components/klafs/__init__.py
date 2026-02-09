@@ -251,34 +251,27 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
 async def _register_custom_icons(hass: HomeAssistant) -> None:
     """Register custom Klafs icons for Home Assistant frontend."""
     try:
-        from homeassistant.components.http.static import StaticPathConfig
-        
-        # Get the path to the integration directory
+        # Get the path to the frontend directory
         integration_path = Path(__file__).parent
-        icons_path = integration_path / "icons"
         frontend_path = integration_path / "frontend"
-        
-        if not icons_path.exists():
-            _LOGGER.warning("Icons directory not found at %s", icons_path)
-            return
         
         if not frontend_path.exists():
             _LOGGER.warning("Frontend directory not found at %s", frontend_path)
             return
         
-        # Register static paths using StaticPathConfig objects
-        await hass.http.async_register_static_paths([
-            StaticPathConfig(f"/local/{DOMAIN}/icons", str(icons_path), False),
-            StaticPathConfig(f"/local/{DOMAIN}", str(frontend_path), False),
-        ])
-        _LOGGER.debug("Registered static paths: /local/%s/icons -> %s", DOMAIN, icons_path)
-        _LOGGER.debug("Registered static paths: /local/%s -> %s", DOMAIN, frontend_path)
+        # Register static path for frontend directory (contains iconset.js with inline SVG)
+        hass.http.register_static_path(
+            f"/{DOMAIN}",
+            str(frontend_path),
+            cache_headers=False,
+        )
+        _LOGGER.debug("Registered static path: /%s -> %s", DOMAIN, frontend_path)
         
         # Load iconset.js automatically into frontend
-        hass.components.frontend.add_extra_js_url(hass, f"/local/{DOMAIN}/iconset.js")
+        hass.components.frontend.add_extra_js_url(hass, f"/{DOMAIN}/iconset.js")
         _LOGGER.debug("Added iconset.js to frontend")
         
-        _LOGGER.info("Klafs custom icons registered successfully")
+        _LOGGER.info("Klafs custom icons registered successfully (inline iconset)")
         _LOGGER.info("Icons available: klafs:sauna, klafs:sauna-heating, klafs:sauna-ready, klafs:sauna-off")
         
     except Exception as err:
