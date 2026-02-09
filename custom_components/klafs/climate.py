@@ -25,6 +25,7 @@ from .const import (
     TEMP_MIN_SANARIUM,
     TEMP_MIN_SAUNA,
 )
+from .icon_mapping import get_icon_for_climate_state
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -167,3 +168,12 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             attrs["mode"] = "Infrared"
 
         return attrs
+    
+    @property
+    def icon(self) -> str:
+        """Return the icon based on HVAC mode and state."""
+        if self._sauna_id not in self.coordinator.data:
+            return "klafs:sauna"
+        
+        data = self.coordinator.data[self._sauna_id]
+        return get_icon_for_climate_state(self.hvac_mode, data)

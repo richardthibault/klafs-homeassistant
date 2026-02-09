@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 from datetime import timedelta
+from pathlib import Path
 
 import voluptuous as vol
 
@@ -59,6 +60,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     _LOGGER.debug("Entry data keys: %s", list(entry.data.keys()))
     
     hass.data.setdefault(DOMAIN, {})
+    
+    # Register custom icons - serve static files
+    await _register_custom_icons(hass)
 
     try:
         username = entry.data.get(CONF_USERNAME)
@@ -241,3 +245,38 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
         if sauna_id in self.saunas_config:
             return self.saunas_config[sauna_id].get("name", sauna_id[:8])
         return sauna_id[:8]
+
+
+async def _register_custom_icons(hass: HomeAssistant) -> None:
+    """Register custom Klafs icons for Home Assistant frontend."""
+    try:
+        # Get the path to the frontend directory
+        frontend_path = Path(__file__).parent / "frontend"
+        
+        if not frontend_path.exists():
+            _LOGGER.warning("Frontend directory not found at %s", frontend_path)
+            return
+        
+        # Register static path for icons directory
+        hass.http.register_static_path(
+            "/local/klafs/icons",
+            str(frontend_path / "icons"),
+            cache_headers=True,
+        )
+        _LOGGER.debug("Registered static path: /local/klafs/icons")
+        
+        # Register static path for iconset.js
+        hass.http.register_static_path(
+            "/local/klafs/iconset.js",
+            str(frontend_path / "iconset.js"),
+            cache_headers=False,  # Don't cache JS to allow updates
+        )
+        _LOGGER.debug("Registered static path: /local/klafs/iconset.js")
+        
+        # Add the iconset JS to the frontend
+        hass.components.frontend.add_extra_js_url(hass, "/local/klafs/iconset.js")
+        
+        _LOGGER.info("Klafs custom icons registered successfully")
+        
+    except Exception as err:
+        _LOGGER.error("Failed to register custom icons: %s", err)

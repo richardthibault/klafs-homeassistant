@@ -16,6 +16,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from . import KlafsDataUpdateCoordinator
 from .const import DOMAIN
+from .icon_mapping import get_icon_for_state
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -156,16 +157,23 @@ class KlafsSaunaStatusSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def icon(self) -> str:
-        """Return the icon."""
+        """Return the icon based on sauna state."""
         if self._sauna_id not in self.coordinator.data:
-            return "mdi:sauna"
+            return "klafs:sauna"
 
         data = self.coordinator.data[self._sauna_id]
-        if data.get("isReadyForUse"):
-            return "mdi:check-circle"
-        elif data.get("isPoweredOn"):
-            return "mdi:fire"
-        elif not data.get("isConnected"):
-            return "mdi:cloud-off-outline"
-        else:
-            return "mdi:sauna"
+        return get_icon_for_state(data)
+    
+    @property
+    def extra_state_attributes(self) -> dict[str, str]:
+        """Return additional state attributes."""
+        if self._sauna_id not in self.coordinator.data:
+            return {}
+        
+        data = self.coordinator.data[self._sauna_id]
+        return {
+            "raw_state": self.native_value,
+            "is_connected": data.get("isConnected", False),
+            "is_powered_on": data.get("isPoweredOn", False),
+            "is_ready": data.get("isReadyForUse", False),
+        }
