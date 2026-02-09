@@ -11,6 +11,14 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.6] - 2026-02-09
+
+### Behoben
+- **HACS-Kompatibilität**: SVG-Symbole in Integrations-Root verschoben für korrekte HACS-Bereitstellung
+- HACS kopierte das Unterverzeichnis `frontend/icons/` nicht, was zu fehlenden Symbolen nach der Installation führte
+
+---
+
 ## [1.0.5] - 2026-02-09
 
 ### Behoben

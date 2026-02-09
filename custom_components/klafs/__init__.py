@@ -251,20 +251,21 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
 async def _register_custom_icons(hass: HomeAssistant) -> None:
     """Register custom Klafs icons for Home Assistant frontend."""
     try:
-        # Get the path to the frontend directory
-        frontend_path = Path(__file__).parent / "frontend"
+        # Get the path to the integration directory
+        integration_path = Path(__file__).parent
+        frontend_path = integration_path / "frontend"
         
         if not frontend_path.exists():
             _LOGGER.warning("Frontend directory not found at %s", frontend_path)
             return
         
-        # Register static path for icons directory
+        # Register static path for SVG icons (directly in integration folder)
         hass.http.register_static_path(
             "/local/klafs/icons",
-            str(frontend_path / "icons"),
+            str(integration_path),
             cache_headers=True,
         )
-        _LOGGER.debug("Registered static path: /local/klafs/icons")
+        _LOGGER.debug("Registered static path: /local/klafs/icons -> %s", integration_path)
         
         # Register static path for iconset.js
         hass.http.register_static_path(

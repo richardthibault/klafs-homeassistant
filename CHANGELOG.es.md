@@ -11,6 +11,14 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.6] - 2026-02-09
+
+### Corregido
+- **Compatibilidad HACS**: SVG movidos a la raíz de la integración para despliegue HACS correcto
+- HACS no copiaba el subdirectorio `frontend/icons/`, causando que faltaran los iconos después de la instalación
+
+---
+
 ## [1.0.5] - 2026-02-09
 
 ### Corregido
