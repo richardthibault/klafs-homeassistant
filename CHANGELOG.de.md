@@ -11,6 +11,26 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.22] - 2026-02-09
+
+### Behoben
+- **Reine SVG-Paths**: Alle SVG-Elemente in Path-Befehle für Kompatibilität konvertiert
+- Symbole werden jetzt korrekt mit `window.customIconsets` API angezeigt (bewährt in v1.0.19)
+- Alle visuellen Elemente erhalten: Heizkörperstäbe, Heizsteine, Bank, Thermometer, Hitzewellen, Checkmark
+
+### Technische Details
+- Alle `<rect>`, `<circle>`, `<line>` Elemente in reine `<path>` Befehle konvertiert
+- Monochromes Rendering (einzelnes `currentColor` - keine Mehrfarben-Unterstützung)
+- Verwendet `window.customIconsets` + `window.customIcons` APIs
+- Thermometer zeigt verschiedene Füllstände: 50% (Standard), 75% (Heizen), 100% (Bereit), 0% (Aus)
+
+### Kompromisse
+- Heizkörperstäbe gleiche Farbe wie Rest (keine graue Unterscheidung)
+- Keine Opazitätsvariationen (alles solid)
+- Einfacher als v1.0.20-21 aber funktional
+
+---
+
 ## [1.0.21] - 2026-02-09
 
 ### Behoben

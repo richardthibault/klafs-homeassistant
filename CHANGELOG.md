@@ -11,6 +11,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.22] - 2026-02-09
+
+### Fixed
+- **Pure SVG paths**: Converted all SVG elements to path commands for compatibility
+- Icons now display correctly with `window.customIconsets` API (proven working in v1.0.19)
+- All visual elements preserved: radiator bars, heating stones, bench, thermometer, heat waves, checkmark
+
+### Technical Details
+- All `<rect>`, `<circle>`, `<line>` elements converted to pure `<path>` commands
+- Monochrome rendering (single `currentColor` - no multi-color support)
+- Uses `window.customIconsets` + `window.customIcons` APIs
+- Thermometer shows different fill levels: 50% (default), 75% (heating), 100% (ready), 0% (off)
+
+### Trade-offs
+- Radiator bars same color as rest (no gray distinction)
+- No opacity variations (all solid)
+- Simpler than v1.0.20-21 but functional
+
+---
+
 ## [1.0.21] - 2026-02-09
 
 ### Fixed

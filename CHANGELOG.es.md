@@ -11,6 +11,26 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.22] - 2026-02-09
+
+### Corregido
+- **Paths SVG puros**: Convertidos todos los elementos SVG a comandos path para compatibilidad
+- Los iconos ahora se muestran correctamente con API `window.customIconsets` (funcionamiento probado en v1.0.19)
+- Todos los elementos visuales preservados: barras radiador, piedras calientes, banco, termómetro, ondas de calor, checkmark
+
+### Detalles técnicos
+- Todos los elementos `<rect>`, `<circle>`, `<line>` convertidos a comandos `<path>` puros
+- Renderizado monocromo (`currentColor` único - sin soporte multi-color)
+- Usa APIs `window.customIconsets` + `window.customIcons`
+- El termómetro muestra diferentes niveles: 50% (predeterminado), 75% (calentando), 100% (listo), 0% (apagado)
+
+### Compromisos
+- Barras del radiador mismo color que el resto (sin distinción gris)
+- Sin variaciones de opacidad (todo sólido)
+- Más simple que v1.0.20-21 pero funcional
+
+---
+
 ## [1.0.21] - 2026-02-09
 
 ### Corregido
