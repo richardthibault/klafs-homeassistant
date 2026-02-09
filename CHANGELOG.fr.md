@@ -11,6 +11,14 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.5] - 2026-02-09
+
+### Corrigé
+- **Timing d'enregistrement des icônes** : Les icônes sont maintenant enregistrées après le chargement des plateformes, assurant une initialisation correcte
+- Cela corrige le problème où les icônes custom n'apparaissaient pas dans le frontend
+
+---
+
 ## [1.0.4] - 2026-02-09
 
 ### Ajouté

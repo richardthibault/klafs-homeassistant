@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.5] - 2026-02-09
+
+### Fixed
+- **Icon registration timing**: Icons are now registered after platforms are loaded, ensuring proper initialization
+- This fixes the issue where custom icons were not appearing in the frontend
+
+---
+
 ## [1.0.4] - 2026-02-09
 
 ### Added
