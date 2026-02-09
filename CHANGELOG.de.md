@@ -11,6 +11,25 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.2.1] - 2026-02-09
+
+### Hinzugefügt
+- **Native Time-Entity für geplante Startzeit**: Neue Entity `time.klafs_sauna_scheduled_start_time`
+  - Schöner Zeitwähler mit Scroll-Rädern in der Home Assistant UI
+  - Direkt von jedem Dashboard aus änderbar
+  - Synchronisiert automatisch mit Sauna-Hardware
+  - 100% Plug & Play - keine manuelle Konfiguration erforderlich
+- **Vereinfachte Dokumentation**: EXAMPLES.md mit einfachem "Entities"-Karten-Ansatz aktualisiert
+  - Komplexe benutzerdefinierte Lovelace-Karten-Anforderungen entfernt
+  - Alle Steuerelemente über Standard-Home-Assistant-Karten zugänglich
+
+### Geändert
+- **Dokumentationsverbesserungen**: Klarere Anweisungen zum Hinzufügen von Steuerkarten zu Dashboards
+  - Schritt-für-Schritt-Anleitung zum Hinzufügen einer Entities-Karte
+  - Verwirrende Installationsschritte für benutzerdefinierte Karten entfernt
+
+---
+
 ## [1.2.0] - 2026-02-09
 
 ### Hinzugefügt

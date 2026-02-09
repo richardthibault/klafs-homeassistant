@@ -11,6 +11,25 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.2.1] - 2026-02-09
+
+### Ajouté
+- **Entité time native pour heure programmée** : Nouvelle entité `time.klafs_sauna_scheduled_start_time`
+  - Beau sélecteur d'heure avec roues de défilement dans l'interface Home Assistant
+  - Directement modifiable depuis n'importe quel tableau de bord
+  - Se synchronise automatiquement avec le matériel du sauna
+  - 100% plug & play - aucune configuration manuelle requise
+- **Documentation simplifiée** : EXAMPLES.md mis à jour avec approche carte "Entités" simple
+  - Suppression des exigences complexes de carte Lovelace personnalisée
+  - Tous les contrôles accessibles via cartes Home Assistant standard
+
+### Modifié
+- **Améliorations documentation** : Instructions plus claires pour ajouter des cartes de contrôle aux tableaux de bord
+  - Guide étape par étape pour ajouter une carte Entités
+  - Suppression des étapes confuses d'installation de carte personnalisée
+
+---
+
 ## [1.2.0] - 2026-02-09
 
 ### Ajouté

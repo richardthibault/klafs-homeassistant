@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.1] - 2026-02-09
+
+### Added
+- **Native time entity for scheduled start**: New `time.klafs_sauna_scheduled_start_time` entity
+  - Beautiful time picker with scroll wheels in Home Assistant UI
+  - Directly modifiable from any dashboard
+  - Automatically syncs with sauna hardware
+  - 100% plug & play - no manual configuration required
+- **Simplified documentation**: Updated EXAMPLES.md with simple "Entities" card approach
+  - Removed complex custom Lovelace card requirements
+  - All controls accessible via standard Home Assistant cards
+
+### Changed
+- **Documentation improvements**: Clearer instructions for adding control cards to dashboards
+  - Step-by-step guide for adding Entities card
+  - Removed confusing custom card installation steps
+
+---
+
 ## [1.2.0] - 2026-02-09
 
 ### Added
