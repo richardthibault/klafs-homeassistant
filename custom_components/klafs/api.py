@@ -219,10 +219,18 @@ class KlafsApiClient:
         _LOGGER.debug("Set mode result: %s", result)
         return result
 
-    async def set_start_time(self, sauna_id: str, hour: int, minute: int) -> bool:
-        """Set start time for sauna preheating."""
+    async def set_start_time(self, sauna_id: str, hour: int, minute: int, time_set: bool = True) -> bool:
+        """Set start time for sauna preheating.
+        
+        Args:
+            sauna_id: The sauna ID
+            hour: Hour (0-23)
+            minute: Minute (0-59)
+            time_set: Whether to enable the scheduled start (default: True)
+        """
         control_data = {
-            "hour": hour,
-            "minute": minute,
+            "time_set": time_set,
+            "hours": hour,
+            "minutes": minute,
         }
         return await self.set_sauna_control(sauna_id, API_SET_SELECTED_TIME_ENDPOINT, control_data)

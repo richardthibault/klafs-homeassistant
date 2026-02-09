@@ -102,9 +102,22 @@ Cookie: [session cookie]
   "bathingHours": 0,
   "bathingMinutes": 0,
   "currentHumidityStatus": 0,
-  "currentTemperatureStatus": 0
+  "currentTemperatureStatus": 0,
+  "selectedMode": 2
 }
 ```
+
+**Notes importantes sur la détection des modes disponibles :**
+- `selectedMode` : Mode actuellement actif (1=Sauna, 2=SANARIUM, 3=IR)
+- `saunaSelected`, `sanariumSelected`, `irSelected` : Booléens indiquant le mode actif
+- `selectedSaunaTemperature` : Température préférée pour le mode Sauna (toujours disponible)
+- `selectedSanariumTemperature` : Température préférée pour le mode SANARIUM
+  - Si < 40°C, le mode SANARIUM n'est probablement pas supporté par ce sauna
+- `selectedIrTemperature` : Température préférée pour le mode Infrarouge
+  - Si < 30°C, le mode IR n'est probablement pas supporté par ce sauna
+- `currentTemperature` : Température actuelle mesurée
+  - ⚠️ Quand le sauna est éteint, l'API retourne 141°C (valeur sentinelle invalide)
+  - Filtrer les valeurs > 120°C pour éviter d'afficher des températures aberrantes
 
 **Exemple curl:**
 ```bash

@@ -43,22 +43,57 @@ GET /SaunaApp/GetData?id={sauna_id}
 
 Response: JSON
 {
-  "saunaId": "...",
-  "isPoweredOn": true/false,
-  "isReadyForUse": true/false,
-  "currentTemperature": 79,
-  "selectedSaunaTemperature": 81,
-  "selectedMode": 1,  // 1=Sauna, 2=Sanarium, 3=IR
-  "currentHumidity": 0,
-  "selectedHumLevel": 0,
-  "remainingBathingHours": 2,
-  "remainingBathingMinutes": 39,
-  "isConnected": true,
-  "opStatus": 2,
-  "Success": true,
-  ...
+  "saunaId": "108aac58-da8d-48b2-956a-af160ac26326",
+  "saunaSelected": false,           // Mode Sauna sélectionné
+  "sanariumSelected": true,          // Mode SANARIUM sélectionné
+  "irSelected": false,               // Mode Infrarouge sélectionné
+  "selectedSaunaTemperature": 81,    // Température préférée mode Sauna
+  "selectedSanariumTemperature": 75, // Température préférée mode SANARIUM
+  "selectedIrTemperature": 27,       // Température préférée mode IR (27 = non supporté)
+  "selectedHumLevel": 0,             // Niveau humidité SANARIUM (0-10)
+  "selectedIrLevel": 3,              // Niveau IR (1-5)
+  "selectedHour": 21,                // Heure démarrage programmé
+  "selectedMinute": 35,              // Minute démarrage programmé
+  "isConnected": true,               // Sauna connecté au réseau
+  "isPoweredOn": false,              // Sauna allumé
+  "isReadyForUse": false,            // Sauna prêt (température atteinte)
+  "currentTemperature": 141,         // Température actuelle (°C)
+  "currentHumidity": 0,              // Humidité actuelle (%)
+  "statusCode": 0,                   // Code statut (0=OK)
+  "statusMessage": null,             // Message statut
+  "showRemainingBathingTime": false, // Afficher temps restant
+  "remainingBathingHours": 0,        // Heures restantes
+  "remainingBathingMinutes": 0,      // Minutes restantes
+  "currentHumidityStatus": 0,        // Statut humidité
+  "currentTemperatureStatus": 0,     // Statut température
+  "selectedMode": 2,                 // Mode actuel (1=Sauna, 2=SANARIUM, 3=IR)
+  "selectedTemperature": 75,         // Température cible du mode actuel
+  "lightIsOn": false,                // Lumière allumée
+  "lightBrightness": 0,              // Luminosité (0-100)
+  "colorLightIsOn": false,           // Lumière couleur allumée
+  "sunsetIsOn": false,               // Mode sunset actif
+  "sunsetBrightness": 0,             // Luminosité sunset
+  "colorLightBrightness": 0,         // Luminosité couleur
+  "colorLightColor": 2,              // Couleur (1-7)
+  "opStatus": 0,                     // Statut opérationnel
+  "timeSelected": false,             // Démarrage programmé actif
+  "bathingTimeSelected": false,      // Durée bain définie
+  "selectedBathingTimeHours": 0,     // Heures durée bain
+  "selectedBathingTimeMinutes": 0,   // Minutes durée bain
+  "supportedProtocolVersion": 1.06,  // Version protocole
+  "Success": true,                   // Requête réussie
+  "LoginRequired": false,            // Login requis
+  "ErrorMessageHeader": "Erreur",    // Titre erreur
+  "ErrorMessage": ""                 // Message erreur
 }
 ```
+
+**Notes importantes :**
+- `selectedMode` indique le mode actuellement actif (1=Sauna, 2=SANARIUM, 3=IR)
+- Les champs `saunaSelected`, `sanariumSelected`, `irSelected` sont des booléens indiquant le mode actif
+- Chaque mode a sa propre température préférée mémorisée dans le sauna
+- Si `selectedIrTemperature` < 30°C, le mode IR n'est probablement pas supporté par le sauna
+- Si `selectedSanariumTemperature` < 40°C, le mode SANARIUM n'est probablement pas supporté
 
 ### Démarrer le Sauna
 ```
@@ -106,6 +141,12 @@ Response: JSON { "Success": true/false, ... }
 
 **Note importante:** Le paramètre doit être `selected_mode` et non `mode`.
 
+**Notes sur les valeurs de température :**
+- `currentTemperature` : Température actuelle mesurée
+  - ⚠️ Quand le sauna est éteint, l'API retourne 141°C (valeur sentinelle invalide)
+  - Filtrer les valeurs > 120°C pour éviter d'afficher des températures aberrantes
+  - Températures valides : 10-100°C pour Sauna, 40-75°C pour SANARIUM, 30-100°C pour IR
+
 ### Changer la Température
 ```
 POST /SaunaApp/ChangeTemperature
@@ -142,12 +183,15 @@ Content-Type: application/json
 Body:
 {
   "id": "sauna-id",
-  "hour": 18,
-  "minute": 30
+  "time_set": true,  // true pour activer, false pour désactiver
+  "hours": 18,       // Heure (0-23)
+  "minutes": 30      // Minutes (0-59)
 }
 
 Response: JSON { "Success": true/false, ... }
 ```
+
+**Note importante:** Les paramètres sont `time_set`, `hours`, `minutes` (pas `hour`, `minute`).
 
 ## Autres Endpoints Disponibles
 

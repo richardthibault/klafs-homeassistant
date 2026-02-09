@@ -66,7 +66,6 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         | ClimateEntityFeature.PRESET_MODE
     )
     _attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT]
-    _attr_preset_modes = [PRESET_SAUNA, PRESET_SANARIUM, PRESET_INFRARED]
 
     def __init__(
         self, coordinator: KlafsDataUpdateCoordinator, sauna_id: str
@@ -76,6 +75,33 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         self._sauna_id = sauna_id
         self._attr_unique_id = f"{sauna_id}_climate"
         self._attr_name = "Sauna"
+        
+        # Detect available preset modes based on sauna capabilities
+        self._detect_available_modes()
+    
+    def _detect_available_modes(self) -> None:
+        """Detect which preset modes are available on this sauna."""
+        available_modes = [PRESET_SAUNA]  # Sauna mode is always available
+        
+        if self._sauna_id in self.coordinator.data:
+            data = self.coordinator.data[self._sauna_id]
+            
+            # SANARIUM is available if selectedSanariumTemperature is reasonable (>= 40°C)
+            sanarium_temp = data.get("selectedSanariumTemperature", 0)
+            if sanarium_temp >= 40:
+                available_modes.append(PRESET_SANARIUM)
+            
+            # Infrared is available if selectedIrTemperature is reasonable (>= 30°C)
+            ir_temp = data.get("selectedIrTemperature", 0)
+            if ir_temp >= 30:
+                available_modes.append(PRESET_INFRARED)
+        
+        self._attr_preset_modes = available_modes
+        _LOGGER.debug(
+            "Detected available modes for sauna %s: %s", 
+            self._sauna_id[:8], 
+            available_modes
+        )
 
     @property
     def device_info(self):
@@ -91,9 +117,19 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
     @property
     def current_temperature(self) -> float | None:
         """Return the current temperature."""
-        if self._sauna_id in self.coordinator.data:
-            return self.coordinator.data[self._sauna_id].get("currentTemperature")
-        return None
+        if self._sauna_id not in self.coordinator.data:
+            return None
+        
+        data = self.coordinator.data[self._sauna_id]
+        temp = data.get("currentTemperature")
+        
+        # Filter out invalid temperature values
+        # When sauna is off, API returns 141°C (sentinel value)
+        # Valid sauna temperatures are 10-100°C
+        if temp is None or temp > 120:
+            return None
+        
+        return temp
 
     @property
     def target_temperature(self) -> float | None:
@@ -222,6 +258,22 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             "current_humidity": data.get("currentHumidity"),
         }
 
+        # Add temperature status message when sauna is off
+        raw_temp = data.get("currentTemperature")
+        is_powered_on = data.get("isPoweredOn", False)
+        if not is_powered_on and raw_temp is not None and raw_temp > 120:
+            attrs["temperature_info"] = "Sauna must be powered on to read current temperature"
+        
+        # Add scheduled start time if configured
+        time_selected = data.get("timeSelected", False)
+        if time_selected:
+            hour = data.get("selectedHour", 0)
+            minute = data.get("selectedMinute", 0)
+            attrs["scheduled_start_time"] = f"{hour:02d}:{minute:02d}"
+            attrs["scheduled_start_enabled"] = True
+        else:
+            attrs["scheduled_start_enabled"] = False
+        
         # Add humidity level for SANARIUM mode
         if data.get("sanariumSelected"):
             attrs["humidity_level"] = data.get("selectedHumLevel")

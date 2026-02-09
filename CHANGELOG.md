@@ -11,6 +11,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.0] - 2026-02-09
+
+### Added
+- **Smart mode detection**: Automatically detects available sauna modes based on hardware capabilities
+  - Infrared mode hidden if not supported by your sauna
+  - SANARIUM mode hidden if not supported by your sauna
+- **Scheduled start time display**: Shows programmed start time in entity attributes
+  - `scheduled_start_time`: Displays time in HH:MM format
+  - `scheduled_start_enabled`: Boolean indicating if schedule is active
+
+### Fixed
+- **Temperature display**: Filters invalid temperature readings when sauna is off
+  - API returns 141°C when sauna is off (sentinel value)
+  - Now displays "unavailable" instead of incorrect temperature
+  - Added `temperature_info` attribute explaining why temperature is unavailable
+- **Preset mode API**: Corrected parameter name from `mode` to `selected_mode`
+  - Fixes HTTP 500 errors when changing modes
+  - Mode switching now works correctly
+- **Start time API**: Corrected parameters for SetSelectedTime endpoint
+  - Changed from `hour`/`minute` to `hours`/`minutes`/`time_set`
+  - Matches actual Klafs API requirements
+
+### Technical
+- Enhanced API documentation with complete field descriptions
+- Added temperature validation (filters values > 120°C)
+- Mode detection based on `selectedIrTemperature` and `selectedSanariumTemperature` values
+
+---
+
 ## [1.1.2] - 2026-02-09
 
 ### Fixed

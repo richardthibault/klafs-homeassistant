@@ -11,6 +11,35 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.2.0] - 2026-02-09
+
+### Añadido
+- **Detección inteligente de modos**: Detecta automáticamente los modos de sauna disponibles según las capacidades del hardware
+  - Modo Infrarrojo oculto si no es compatible con su sauna
+  - Modo SANARIUM oculto si no es compatible con su sauna
+- **Visualización hora programada**: Muestra la hora de inicio programada en los atributos de la entidad
+  - `scheduled_start_time`: Muestra la hora en formato HH:MM
+  - `scheduled_start_enabled`: Booleano que indica si la programación está activa
+
+### Corregido
+- **Visualización temperatura**: Filtra lecturas de temperatura inválidas cuando la sauna está apagada
+  - La API devuelve 141°C cuando la sauna está apagada (valor centinela)
+  - Ahora muestra "no disponible" en lugar de temperatura incorrecta
+  - Añadido atributo `temperature_info` explicando por qué la temperatura no está disponible
+- **API modo preset**: Corregido nombre de parámetro de `mode` a `selected_mode`
+  - Corrige errores HTTP 500 al cambiar de modo
+  - El cambio de modo ahora funciona correctamente
+- **API hora de inicio**: Corregidos parámetros para el endpoint SetSelectedTime
+  - Cambiado de `hour`/`minute` a `hours`/`minutes`/`time_set`
+  - Coincide con los requisitos reales de la API Klafs
+
+### Técnico
+- Documentación API mejorada con descripciones completas de campos
+- Añadida validación de temperatura (filtra valores > 120°C)
+- Detección de modos basada en valores `selectedIrTemperature` y `selectedSanariumTemperature`
+
+---
+
 ## [1.1.2] - 2026-02-09
 
 ### Corregido
