@@ -11,6 +11,22 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.21] - 2026-02-09
+
+### Corrigé
+- **API officielle HA** : Passage à `ha-iconset-svg` Web Components (méthode officielle Home Assistant)
+- Les icônes s'affichent maintenant correctement avec tous les éléments visuels (radiateur, thermomètre, ondes de chaleur)
+- Corrige l'erreur de parsing SVG path de la v1.0.20
+
+### Détails techniques
+- Utilise le Web Component `<ha-iconset-svg>` avec définitions SVG inline
+- Accepte le markup SVG complet (`<rect>`, `<circle>`, `<line>`, `<path>`)
+- Préserve tous les attributs : couleurs, strokes, opacité
+- Aucun fichier externe nécessaire (compatible HACS)
+- API officielle HA pour icônes personnalisées depuis 2020
+
+---
+
 ## [1.0.20] - 2026-02-09
 
 ### Corrigé

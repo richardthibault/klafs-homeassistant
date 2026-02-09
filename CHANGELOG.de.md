@@ -11,6 +11,22 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.21] - 2026-02-09
+
+### Behoben
+- **Offizielle HA-API**: Wechsel zu `ha-iconset-svg` Web Components (offizielle Home Assistant Methode)
+- Symbole werden jetzt korrekt mit allen visuellen Elementen gerendert (Heizkörper, Thermometer, Hitzewellen)
+- Behebt SVG-Path-Parsing-Fehler aus v1.0.20
+
+### Technische Details
+- Verwendet `<ha-iconset-svg>` Web Component mit Inline-SVG-Definitionen
+- Akzeptiert vollständiges SVG-Markup (`<rect>`, `<circle>`, `<line>`, `<path>`)
+- Bewahrt alle Attribute: Farben, Strokes, Opazität
+- Keine externen Dateien erforderlich (HACS-kompatibel)
+- Offizielle HA-API für benutzerdefinierte Symbole seit 2020
+
+---
+
 ## [1.0.20] - 2026-02-09
 
 ### Behoben
