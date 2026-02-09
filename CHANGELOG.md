@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.12] - 2026-02-09
+
+### Fixed
+- **Static path registration**: Use `StaticPathConfig` objects instead of dictionaries
+- Fixed AttributeError: `'dict' object has no attribute 'url_path'`
+
+---
+
 ## [1.0.11] - 2026-02-09
 
 ### Fixed

@@ -11,6 +11,14 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.12] - 2026-02-09
+
+### Corrigé
+- **Enregistrement chemin statique** : Utilisation d'objets `StaticPathConfig` au lieu de dictionnaires
+- Correction AttributeError : `'dict' object has no attribute 'url_path'`
+
+---
+
 ## [1.0.11] - 2026-02-09
 
 ### Corrigé
