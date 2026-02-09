@@ -11,6 +11,16 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.3.0] - 2026-02-09
+
+### Corrigé
+- **Contrôle de température** : Correction du paramètre API pour les changements de température
+  - Changement du paramètre `temp` vers `temperature`
+  - Valeur de température maintenant envoyée en string au lieu d'integer
+  - Les ajustements de température fonctionnent maintenant correctement pour tous les modes (Sauna/SANARIUM/Infrarouge)
+
+---
+
 ## [1.2.1] - 2026-02-09
 
 ### Ajouté
