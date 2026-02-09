@@ -11,6 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.2] - 2026-02-09
+
+### Fixed
+- **Preset mode switching**: Fixed API parameter name from `mode` to `selected_mode`
+- Preset mode changes now work correctly via Home Assistant interface
+- No more HTTP 500 errors when changing modes
+
+### Technical
+- Changed `/SaunaApp/SetMode` payload from `{"mode": X}` to `{"selected_mode": X}`
+- Matches the exact format used by Klafs web application
+
+---
+
 ## [1.1.1] - 2026-02-09
 
 ### Fixed

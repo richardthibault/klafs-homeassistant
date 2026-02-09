@@ -212,7 +212,7 @@ class KlafsApiClient:
         """Set sauna mode (Sauna/SANARIUM/IR)."""
         _write_debug_log(f"\n>>> SET_MODE called: sauna={sauna_id[:8]}, mode={mode}")
         _LOGGER.debug("Setting mode for sauna %s to mode %d", sauna_id[:8], mode)
-        control_data = {"mode": mode}
+        control_data = {"selected_mode": mode}  # FIXED: Use "selected_mode" instead of "mode"
         _LOGGER.debug("Control data: %s", control_data)
         result = await self.set_sauna_control(sauna_id, API_SET_MODE_ENDPOINT, control_data)
         _write_debug_log(f"<<< SET_MODE result: {result}\n")
