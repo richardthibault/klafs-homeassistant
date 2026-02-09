@@ -60,9 +60,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     _LOGGER.debug("Entry data keys: %s", list(entry.data.keys()))
     
     hass.data.setdefault(DOMAIN, {})
-    
-    # Register custom icons - serve static files
-    await _register_custom_icons(hass)
 
     try:
         username = entry.data.get(CONF_USERNAME)
@@ -92,6 +89,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
         _LOGGER.debug("Setting up platforms: %s", PLATFORMS)
         await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+        
+        # Register custom icons AFTER platforms are loaded
+        await _register_custom_icons(hass)
+        
     except Exception as err:
         _LOGGER.exception("Error setting up Klafs integration: %s", err)
         return False
