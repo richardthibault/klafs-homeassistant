@@ -11,6 +11,21 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.8] - 2026-02-09
+
+### Corrigé
+- **Emplacement des fichiers icônes** : Déplacement des SVG vers l'emplacement correct `frontend/icons/` pour un service approprié
+- **Enregistrement du chemin statique** : Simplifié pour servir tout le répertoire frontend sous `/local/klafs/`
+- **Chargement automatique** : Les icônes se chargent maintenant automatiquement sans ajout manuel de ressource Lovelace
+- **Résolveur d'icônes** : Mise à jour de iconset.js pour utiliser une fonction résolveur pour une meilleure compatibilité
+
+### Modifié
+- Fichiers SVG déplacés de `custom_components/klafs/` vers `custom_components/klafs/frontend/icons/`
+- Simplification de iconset.js avec approche par fonction résolveur
+- Aucun ajout manuel de ressource Lovelace requis désormais
+
+---
+
 ## [1.0.7] - 2026-02-09
 
 ### Corrigé

@@ -251,7 +251,7 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
 async def _register_custom_icons(hass: HomeAssistant) -> None:
     """Register custom Klafs icons for Home Assistant frontend."""
     try:
-        # Get the path to the integration directory
+        # Get the path to the frontend directory
         integration_path = Path(__file__).parent
         frontend_path = integration_path / "frontend"
         
@@ -259,36 +259,26 @@ async def _register_custom_icons(hass: HomeAssistant) -> None:
             _LOGGER.warning("Frontend directory not found at %s", frontend_path)
             return
         
-        # Register static path for SVG icons (directly in integration folder)
+        # Register static path for entire frontend directory
+        # This serves:
+        # - /local/klafs/iconset.js
+        # - /local/klafs/icons/sauna.svg
+        # - /local/klafs/icons/sauna-heating.svg
+        # - etc.
         hass.http.register_static_path(
-            "/local/klafs/icons",
-            str(integration_path),
-            cache_headers=True,
-        )
-        _LOGGER.debug("Registered static path: /local/klafs/icons -> %s", integration_path)
-        
-        # Register static path for frontend directory (for iconset.js)
-        hass.http.register_static_path(
-            "/local/klafs",
+            f"/local/{DOMAIN}",
             str(frontend_path),
-            cache_headers=False,  # Don't cache JS to allow updates
+            cache_headers=False,
         )
-        _LOGGER.debug("Registered static path: /local/klafs -> %s", frontend_path)
+        _LOGGER.debug("Registered static path: /local/%s -> %s", DOMAIN, frontend_path)
         
-        # Register the iconset as a Lovelace resource
-        try:
-            await hass.services.async_call(
-                "lovelace",
-                "reload_resources",
-                {},
-                blocking=False,
-            )
-            _LOGGER.debug("Triggered Lovelace resources reload")
-        except Exception as lovelace_err:
-            _LOGGER.debug("Could not reload Lovelace resources: %s", lovelace_err)
+        # Load iconset.js automatically into frontend
+        hass.components.frontend.add_extra_js_url(hass, f"/local/{DOMAIN}/iconset.js")
+        _LOGGER.debug("Added iconset.js to frontend")
         
-        _LOGGER.info("Klafs custom icons registered successfully - icons available at /local/klafs/icons/")
-        _LOGGER.info("To use custom icons, add as Lovelace resource: /local/klafs/iconset.js (JavaScript Module)")
+        _LOGGER.info("Klafs custom icons registered successfully")
+        _LOGGER.info("Icons available: klafs:sauna, klafs:sauna-heating, klafs:sauna-ready, klafs:sauna-off")
         
     except Exception as err:
         _LOGGER.error("Failed to register custom icons: %s", err)
+        _LOGGER.exception("Full error details:")

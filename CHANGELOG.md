@@ -11,6 +11,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.8] - 2026-02-09
+
+### Fixed
+- **Icon file location**: Moved SVG files to correct location `frontend/icons/` for proper serving
+- **Static path registration**: Simplified to serve entire frontend directory under `/local/klafs/`
+- **Automatic loading**: Icons now load automatically without manual Lovelace resource addition
+- **Icon resolver**: Updated iconset.js to use resolver function for better compatibility
+
+### Changed
+- SVG files moved from `custom_components/klafs/` to `custom_components/klafs/frontend/icons/`
+- Simplified iconset.js with resolver function approach
+- No manual Lovelace resource addition required anymore
+
+---
+
 ## [1.0.7] - 2026-02-09
 
 ### Fixed
