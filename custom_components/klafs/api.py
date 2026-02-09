@@ -200,7 +200,7 @@ class KlafsApiClient:
         self, sauna_id: str, temperature: int, mode: int
     ) -> bool:
         """Set target temperature."""
-        control_data = {"temp": temperature}
+        control_data = {"temperature": str(temperature)}
         return await self.set_sauna_control(sauna_id, API_CHANGE_TEMPERATURE_ENDPOINT, control_data)
 
     async def set_humidity(self, sauna_id: str, humidity_level: int) -> bool:
