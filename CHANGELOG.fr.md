@@ -11,6 +11,15 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.23] - 2026-02-09
+
+### Modifié
+- **Disposition des icônes optimisée** : Suppression du banc pour agrandir le radiateur et les pierres
+- Icônes maintenant plus visibles et plus claires
+- Radiateur et pierres centrés et agrandis pour une meilleure visibilité
+
+---
+
 ## [1.0.22] - 2026-02-09
 
 ### Corrigé

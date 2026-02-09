@@ -11,6 +11,15 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.23] - 2026-02-09
+
+### Cambiado
+- **Diseño de iconos optimizado**: Banco eliminado para agrandar calentador y piedras
+- Iconos ahora más visibles y claros
+- Calentador y piedras centrados y agrandados para mejor visibilidad
+
+---
+
 ## [1.0.22] - 2026-02-09
 
 ### Corregido

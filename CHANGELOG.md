@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.23] - 2026-02-09
+
+### Changed
+- **Optimized icon layout**: Removed bench to enlarge heater and stones
+- Icons now more visible and clearer
+- Heater and stones centered and enlarged for better visibility
+
+---
+
 ## [1.0.22] - 2026-02-09
 
 ### Fixed

@@ -11,6 +11,15 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.23] - 2026-02-09
+
+### Geändert
+- **Optimiertes Icon-Layout**: Bank entfernt, um Heizung und Steine zu vergrößern
+- Symbole jetzt sichtbarer und klarer
+- Heizung und Steine zentriert und vergrößert für bessere Sichtbarkeit
+
+---
+
 ## [1.0.22] - 2026-02-09
 
 ### Behoben
