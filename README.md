@@ -1,101 +1,103 @@
-# Intégration Klafs Sauna pour Home Assistant
+# Klafs Sauna Integration for Home Assistant
+
+**Read this in other languages:** **English** | [Français](README.fr.md) | [Deutsch](README.de.md) | [Español](README.es.md)
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
 [![GitHub release](https://img.shields.io/github/release/richardthibault/klafs-homeassistant.svg)](https://github.com/richardthibault/klafs-homeassistant/releases)
 [![License](https://img.shields.io/github/license/richardthibault/klafs-homeassistant.svg)](LICENSE)
 
-Cette intégration personnalisée permet de contrôler votre sauna Klafs via Home Assistant en utilisant l'API cloud de Klafs.
+This custom integration allows you to control your Klafs sauna via Home Assistant using the Klafs cloud API.
 
 ![Klafs Sauna](https://www.klafs.com/typo3conf/ext/klafs_sitepackage/Resources/Public/Images/logo.svg)
 
-## Fonctionnalités
+## Features
 
-- **Contrôle climatique** : Contrôlez la température de votre sauna comme un thermostat
-- **Capteurs** : Surveillez la température, l'humidité et le statut en temps réel
-- **Modes** : Basculez entre les modes Sauna et SANARIUM®
-- **Allumage/Extinction** : Contrôlez l'alimentation de votre sauna à distance
-- **Multi-saunas** : Gérez plusieurs saunas depuis un seul compte
-- **PIN individuels** : Chaque sauna peut avoir son propre code PIN
+- **Climate Control**: Control your sauna temperature like a thermostat
+- **Sensors**: Monitor temperature, humidity and status in real-time
+- **Modes**: Switch between Sauna and SANARIUM® modes
+- **Power On/Off**: Control your sauna power remotely
+- **Multi-sauna Support**: Manage multiple saunas from a single account
+- **Individual PINs**: Each sauna can have its own PIN code
 
-## Prérequis
+## Prerequisites
 
-- Un compte Klafs Sauna App
-- Un sauna Klafs équipé du module Wi-Fi et de l'option "KLAFS Sauna App"
-- Home Assistant 2023.1 ou supérieur
+- A Klafs Sauna App account
+- A Klafs sauna equipped with Wi-Fi module and "KLAFS Sauna App" option
+- Home Assistant 2023.1 or higher
 
 ## Installation
 
-### Installation manuelle
+### Installation via HACS (Recommended)
 
-1. Copiez le dossier `custom_components/klafs` dans votre dossier `config/custom_components/`
-2. Redémarrez Home Assistant
-3. Allez dans Configuration > Intégrations
-4. Cliquez sur "+ Ajouter une intégration"
-5. Recherchez "Klafs Sauna"
-6. Entrez vos identifiants Klafs Sauna App
+1. Open HACS in Home Assistant
+2. Go to "Integrations"
+3. Click the three dots in the top right
+4. Select "Custom repositories"
+5. Add URL: `https://github.com/richardthibault/klafs-homeassistant`
+6. Search for "Klafs Sauna" and install
+7. Restart Home Assistant
+8. Configure the integration via the user interface
 
-### Installation via HACS (recommandé)
+### Manual Installation
 
-1. Ouvrez HACS dans Home Assistant
-2. Allez dans "Intégrations"
-3. Cliquez sur les trois points en haut à droite
-4. Sélectionnez "Dépôts personnalisés"
-5. Ajoutez l'URL de ce dépôt
-6. Recherchez "Klafs Sauna" et installez-le
-7. Redémarrez Home Assistant
-8. Configurez l'intégration via l'interface utilisateur
+1. Copy the `custom_components/klafs` folder to your `config/custom_components/` folder
+2. Restart Home Assistant
+3. Go to Configuration > Integrations
+4. Click "+ Add Integration"
+5. Search for "Klafs Sauna"
+6. Enter your Klafs Sauna App credentials
 
 ## Configuration
 
-L'intégration se configure entièrement via l'interface utilisateur de Home Assistant en 3 étapes :
+The integration is fully configured via the Home Assistant user interface in 3 steps:
 
-### Étape 1 : Identifiants
-- **Nom d'utilisateur** : Votre identifiant Klafs Sauna App
-- **Mot de passe** : Votre mot de passe Klafs Sauna App
+### Step 1: Credentials
+- **Username**: Your Klafs Sauna App username
+- **Password**: Your Klafs Sauna App password
 
-### Étape 2 : Sélection des saunas
-- Sélectionnez les saunas que vous souhaitez contrôler via Home Assistant
-- Vous pouvez en sélectionner un ou plusieurs
-- Chaque sauna apparaîtra comme un appareil séparé
+### Step 2: Sauna Selection
+- Select the saunas you want to control via Home Assistant
+- You can select one or multiple saunas
+- Each sauna will appear as a separate device
 
-### Étape 3 : Codes PIN
-- **Code PIN** (optionnel) : Le code PIN à 4 chiffres configuré sur chaque sauna
-- Un PIN différent peut être configuré pour chaque sauna
-- Requis pour allumer le sauna à distance
+### Step 3: PIN Codes
+- **PIN Code** (optional): The 4-digit PIN code configured on each sauna
+- A different PIN can be configured for each sauna
+- Required to turn on the sauna remotely
 
-⚠️ **Important** : 
-- Klafs bloque le compte après 3 tentatives de connexion échouées. Assurez-vous d'entrer les bons identifiants.
-- Chaque code PIN doit être configuré sur le sauna correspondant via son panneau de contrôle avant de pouvoir l'utiliser.
-- Sans PIN, vous pourrez voir l'état du sauna mais pas l'allumer à distance.
-- Si vous avez plusieurs saunas, chacun peut avoir son propre code PIN.
+⚠️ **Important**: 
+- Klafs blocks the account after 3 failed login attempts. Make sure to enter the correct credentials.
+- Each PIN code must be configured on the corresponding sauna via its control panel before use.
+- Without a PIN, you can see the sauna status but cannot turn it on remotely.
+- If you have multiple saunas, each can have its own PIN code.
 
-## Entités créées
+## Created Entities
 
-Pour chaque sauna détecté, l'intégration crée :
+For each detected sauna, the integration creates:
 
 ### Climate (Thermostat)
-- **Entité** : `climate.klafs_sauna_XXXXXXXX`
-- **Fonctions** : Contrôle de la température, allumage/extinction
-- **Attributs** :
-  - Mode actuel (Sauna/SANARIUM®/Infrarouge)
-  - Connexion
-  - Prêt à l'emploi
-  - Niveau d'humidité (SANARIUM® uniquement)
+- **Entity**: `climate.klafs_sauna_XXXXXXXX`
+- **Functions**: Temperature control, power on/off
+- **Attributes**:
+  - Current mode (Sauna/SANARIUM®/Infrared)
+  - Connection status
+  - Ready for use
+  - Humidity level (SANARIUM® only)
 
-### Capteurs
-- **Température** : `sensor.klafs_sauna_XXXXXXXX_temperature`
-- **Humidité** : `sensor.klafs_sauna_XXXXXXXX_humidity`
-- **Statut** : `sensor.klafs_sauna_XXXXXXXX_status` (Off/Heating/Ready/Disconnected)
+### Sensors
+- **Temperature**: `sensor.klafs_sauna_XXXXXXXX_temperature`
+- **Humidity**: `sensor.klafs_sauna_XXXXXXXX_humidity`
+- **Status**: `sensor.klafs_sauna_XXXXXXXX_status` (Off/Heating/Ready/Disconnected)
 
-### Interrupteur
-- **Mode SANARIUM®** : `switch.klafs_sauna_XXXXXXXX_sanarium_mode`
+### Switch
+- **SANARIUM® Mode**: `switch.klafs_sauna_XXXXXXXX_sanarium_mode`
 
-## Utilisation
+## Usage
 
-### Contrôle basique
+### Basic Control
 
 ```yaml
-# Allumer le sauna à 80°C (utilise le PIN configuré)
+# Turn on sauna at 80°C (uses configured PIN)
 service: climate.set_temperature
 target:
   entity_id: climate.klafs_sauna_XXXXXXXX
@@ -103,26 +105,26 @@ data:
   temperature: 80
   hvac_mode: heat
 
-# Allumer avec un PIN spécifique
+# Turn on with specific PIN
 service: klafs.power_on_with_pin
 target:
   entity_id: climate.klafs_sauna_XXXXXXXX
 data:
   pin: "1234"
 
-# Éteindre le sauna
+# Turn off sauna
 service: climate.turn_off
 target:
   entity_id: climate.klafs_sauna_XXXXXXXX
 
-# Définir le niveau d'humidité (SANARIUM uniquement)
+# Set humidity level (SANARIUM only)
 service: klafs.set_humidity_level
 target:
   entity_id: climate.klafs_sauna_XXXXXXXX
 data:
   humidity_level: 7
 
-# Programmer l'heure de démarrage
+# Schedule start time
 service: klafs.set_start_time
 target:
   entity_id: climate.klafs_sauna_XXXXXXXX
@@ -131,150 +133,75 @@ data:
   minute: 30
 ```
 
-### Automatisations
+### Automations
 
-```yaml
-# Démarrer le sauna 1 heure avant d'arriver à la maison
-automation:
-  - alias: "Préchauffer le sauna"
-    trigger:
-      - platform: time
-        at: "18:00:00"
-    action:
-      - service: klafs.set_start_time
-        target:
-          entity_id: climate.klafs_sauna
-        data:
-          hour: 19
-          minute: 0
-      - service: climate.set_temperature
-        target:
-          entity_id: climate.klafs_sauna
-        data:
-          temperature: 85
-          hvac_mode: heat
+See [EXAMPLES.md](EXAMPLES.md) for more automation examples and Lovelace cards.
 
-# Notification quand le sauna est prêt
-automation:
-  - alias: "Sauna prêt"
-    trigger:
-      - platform: state
-        entity_id: sensor.klafs_sauna_status
-        to: "Ready"
-    action:
-      - service: notify.mobile_app
-        data:
-          message: "Votre sauna est prêt !"
+## Complete Documentation
 
-# Activer le mode SANARIUM avec humidité élevée le week-end
-automation:
-  - alias: "Mode SANARIUM week-end"
-    trigger:
-      - platform: time
-        at: "10:00:00"
-    condition:
-      - condition: time
-        weekday:
-          - sat
-          - sun
-    action:
-      - service: switch.turn_on
-        target:
-          entity_id: switch.klafs_sauna_sanarium_mode
-      - service: klafs.set_humidity_level
-        target:
-          entity_id: climate.klafs_sauna
-        data:
-          humidity_level: 8
-      - service: climate.set_temperature
-        target:
-          entity_id: climate.klafs_sauna
-        data:
-          temperature: 65
-          hvac_mode: heat
-```
+- 📖 [Quick Start Guide](QUICK_START.md)
+- 🔧 [Detailed Installation Guide](INSTALLATION.md)
+- 💡 [Automation Examples](EXAMPLES.md)
+- 🔍 [API Documentation](API_DOCUMENTATION.md)
+- 🐛 [Troubleshooting Guide](TROUBLESHOOTING.md)
+- 🏗️ [Multi-sauna Support](MULTI_SAUNA_SUPPORT.md)
+- 🤝 [Contributing Guide](CONTRIBUTING.md)
 
-### Carte Lovelace
+## Klafs API
 
-```yaml
-type: thermostat
-entity: climate.klafs_sauna
-```
+This integration uses the Klafs web API (ASP.NET MVC application):
 
-Ou pour une carte plus détaillée :
+- **Base URL**: `https://sauna-app.klafs.com`
+- **Authentication**: Cookie-based after login
+- **Polling**: Updates every 60 seconds by default
 
-```yaml
-type: entities
-entities:
-  - entity: climate.klafs_sauna
-  - entity: sensor.klafs_sauna_temperature
-  - entity: sensor.klafs_sauna_humidity
-  - entity: sensor.klafs_sauna_status
-  - entity: switch.klafs_sauna_sanarium_mode
-```
+## Temperature Limits
 
-## API Klafs
+- **Sauna Mode**: 10°C - 100°C
+- **SANARIUM® Mode**: 40°C - 75°C
+- **Infrared Mode**: 30°C - 100°C
 
-Cette intégration utilise l'API web de Klafs (application ASP.NET MVC) :
+## Troubleshooting
 
-- **URL de base** : `https://sauna-app.klafs.com`
-- **Authentification** : Cookie-based après login
-- **Polling** : Mise à jour toutes les 60 secondes par défaut
+### Integration won't connect
 
-### Endpoints utilisés
+1. Verify your credentials in the Klafs Sauna App
+2. Make sure your account is not blocked (3 attempts max)
+3. Check Home Assistant logs: `Configuration > Logs`
 
-- `/Account/Login` : Authentification
-- `/SaunaApp/GetData` : Récupération du statut d'un sauna
-- `/SaunaApp/StartCabin` : Démarrage du sauna
-- `/SaunaApp/StopCabin` : Arrêt du sauna
-- `/SaunaApp/ChangeTemperature` : Changement de température
-- `/SaunaApp/ChangeHumLevel` : Changement d'humidité
-- `/SaunaApp/SetMode` : Changement de mode
+### Sauna doesn't appear
 
-## Limites de température
+1. Make sure your sauna is properly configured in the Klafs app
+2. Verify the Wi-Fi module is connected
+3. Restart the integration
 
-- **Mode Sauna** : 10°C - 100°C
-- **Mode SANARIUM®** : 40°C - 75°C
-- **Mode Infrarouge** : 30°C - 100°C
+### Commands don't work
 
-## Dépannage
+1. Verify the sauna is connected (`isConnected: true`)
+2. Make sure you have configured a PIN code on your sauna
+3. Check that the sauna door has been controlled
 
-### L'intégration ne se connecte pas
+For more help, see the [Troubleshooting Guide](TROUBLESHOOTING.md).
 
-1. Vérifiez vos identifiants dans l'application Klafs Sauna App
-2. Assurez-vous que votre compte n'est pas bloqué (3 tentatives max)
-3. Vérifiez les logs Home Assistant : `Configuration > Logs`
+## Contributing
 
-### Le sauna n'apparaît pas
+Contributions are welcome! Feel free to:
 
-1. Assurez-vous que votre sauna est bien configuré dans l'application Klafs
-2. Vérifiez que le module Wi-Fi est connecté
-3. Redémarrez l'intégration
+- Report bugs
+- Suggest new features
+- Submit pull requests
 
-### Les commandes ne fonctionnent pas
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
-1. Vérifiez que le sauna est connecté (`isConnected: true`)
-2. Assurez-vous d'avoir configuré un code PIN sur votre sauna
-3. Vérifiez que la porte du sauna a été contrôlée
+## License
 
-## Contribution
+MIT License - See [LICENSE](LICENSE)
 
-Les contributions sont les bienvenues ! N'hésitez pas à :
+## Credits
 
-- Signaler des bugs
-- Proposer de nouvelles fonctionnalités
-- Soumettre des pull requests
+- Based on API research by the OpenHAB community
+- Inspired by the [IPSymconKlafsSaunaControl](https://github.com/Pommespanzer/IPSymconKlafsSaunaControl) project
 
-## Licence
+## Disclaimer
 
-MIT License
-
-## Crédits
-
-- Basé sur la recherche de l'API par la communauté OpenHAB
-- Inspiré du projet [IPSymconKlafsSaunaControl](https://github.com/Pommespanzer/IPSymconKlafsSaunaControl)
-
-## Avertissement
-
-Cette intégration n'est pas officielle et n'est pas affiliée à Klafs GmbH. Utilisez-la à vos propres risques.
-
+This integration is unofficial and not affiliated with Klafs GmbH. Use at your own risk.
