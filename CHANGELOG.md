@@ -11,6 +11,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.2] - 2026-02-09
+
+### Added
+- **Custom SVG icons** with dynamic color support
+  - 4 state-specific icons: default, off, heating, ready
+  - Icons adapt to Home Assistant theme (light/dark mode)
+  - Radiator with visible bars and heating stones design
+  - Thermometer indicates temperature level (0%, 25%, 50%, 100%)
+  - Heat waves animation for heating state
+  - Check mark for ready state
+- **PNG branding icons** for HACS and Home Assistant
+  - 256x256 icon for HACS integration list
+  - High-resolution 512x512 icon for Retina displays
+  - Warm gradient background (orange/red tones)
+
+### Changed
+- Updated sensor icons to use custom `klafs:sauna-*` icons instead of generic MDI icons
+- Icons now provide better visual feedback for sauna state
+
+### Technical
+- Icons use `currentColor` for automatic theme adaptation
+- SVG format ensures crisp display at any size
+- No external dependencies or copyright issues
+
+---
+
 ## [1.0.1] - 2026-02-09
 
 ### Fixed

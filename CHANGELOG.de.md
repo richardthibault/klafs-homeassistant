@@ -10,6 +10,21 @@ Für die vollständige Versionshistorie siehe die [englische Version](CHANGELOG.
 
 ---
 
+## [1.0.2] - 2026-02-09
+
+### Hinzugefügt
+- **Benutzerdefinierte SVG-Symbole** mit dynamischer Farbunterstützung
+  - 4 zustandsspezifische Symbole: Standard, Aus, Heizen, Bereit
+  - Symbole passen sich dem Home Assistant-Theme an (hell/dunkel)
+  - Heizkörper-Design mit sichtbaren Stäben und Heizsteinen
+  - Thermometer zeigt Temperaturniveau (0%, 25%, 50%, 100%)
+- **PNG-Branding-Symbole** für HACS und Home Assistant (256x256, 512x512)
+
+### Geändert
+- Sensor-Symbole verwenden jetzt benutzerdefinierte `klafs:sauna-*` Symbole
+
+---
+
 ## [1.0.1] - 2026-02-09
 
 ### Behoben

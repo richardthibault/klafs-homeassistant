@@ -10,6 +10,21 @@ Para el historial completo de versiones, consulte la [versión en inglés](CHANG
 
 ---
 
+## [1.0.2] - 2026-02-09
+
+### Añadido
+- **Iconos SVG personalizados** con soporte de color dinámico
+  - 4 iconos específicos por estado: predeterminado, apagado, calentando, listo
+  - Los iconos se adaptan al tema de Home Assistant (claro/oscuro)
+  - Diseño de radiador con barras visibles y piedras calientes
+  - Termómetro indica nivel de temperatura (0%, 25%, 50%, 100%)
+- **Iconos PNG de marca** para HACS y Home Assistant (256x256, 512x512)
+
+### Cambiado
+- Los iconos de sensores ahora usan iconos personalizados `klafs:sauna-*`
+
+---
+
 ## [1.0.1] - 2026-02-09
 
 ### Corregido

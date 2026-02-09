@@ -11,6 +11,32 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.2] - 2026-02-09
+
+### Ajouté
+- **Icônes SVG personnalisées** avec support de couleur dynamique
+  - 4 icônes spécifiques par état : défaut, éteint, en chauffe, prêt
+  - Les icônes s'adaptent au thème Home Assistant (clair/foncé)
+  - Design radiateur avec barres visibles et pierres chauffantes
+  - Thermomètre indique le niveau de température (0%, 25%, 50%, 100%)
+  - Animation d'ondes de chaleur pour l'état en chauffe
+  - Coche pour l'état prêt
+- **Icônes PNG de branding** pour HACS et Home Assistant
+  - Icône 256x256 pour la liste d'intégrations HACS
+  - Icône haute résolution 512x512 pour écrans Retina
+  - Fond dégradé chaud (tons orange/rouge)
+
+### Modifié
+- Mise à jour des icônes de capteurs pour utiliser les icônes personnalisées `klafs:sauna-*` au lieu des icônes MDI génériques
+- Les icônes fournissent maintenant un meilleur retour visuel de l'état du sauna
+
+### Technique
+- Les icônes utilisent `currentColor` pour l'adaptation automatique au thème
+- Format SVG garantit un affichage net à toute taille
+- Aucune dépendance externe ni problème de droits d'auteur
+
+---
+
 ## [1.0.1] - 2026-02-09
 
 ### Corrigé
