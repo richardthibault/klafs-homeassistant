@@ -69,9 +69,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         self._sauna_id = sauna_id
         self._attr_unique_id = f"{sauna_id}_climate"
         self._attr_name = "Sauna"
-        # Humidity is displayed as percentage (0-100%)
-        self._attr_min_humidity = 0
-        self._attr_max_humidity = 100
+        # Humidity range for SANARIUM: 40-60% (realistic range)
+        self._attr_min_humidity = 40
+        self._attr_max_humidity = 60
         
         # Detect available preset modes based on sauna capabilities
         self._detect_available_modes()
@@ -179,7 +179,14 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
 
     @property
     def target_humidity(self) -> int | None:
-        """Return the target humidity as percentage (only in SANARIUM mode)."""
+        """Return the target humidity as percentage (only in SANARIUM mode).
+        
+        Converts Klafs humidity level (1-10) to realistic SANARIUM humidity (40-60%).
+        Formula: level * 2 + 40 = percentage
+        - Level 1 → 42%
+        - Level 5 → 50%
+        - Level 10 → 60%
+        """
         if self._sauna_id not in self.coordinator.data:
             return None
         
@@ -187,10 +194,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         
         # Only return humidity in SANARIUM mode
         if data.get("sanariumSelected"):
-            # Convert level (1-10) to percentage (10-100%)
-            # Level 1 = 10%, Level 10 = 100%
+            # Convert level (1-10) to realistic SANARIUM humidity (40-60%)
             level = data.get("selectedHumLevel", 1)
-            return level * 10
+            return min(60, max(40, level * 2 + 40))
         
         return None
 
@@ -264,12 +270,16 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         """Set new target humidity (SANARIUM mode only).
         
         Args:
-            humidity: Target humidity as percentage (0-100%)
-                     Converted to level (1-10) for API
+            humidity: Target humidity as percentage (40-60%)
+                     Converted to Klafs level (1-10) for API
+        
+        Conversion formula: (percentage - 40) / 2 = level
+        - 40-41% → Level 1
+        - 50% → Level 5
+        - 60% → Level 10
         """
-        # Convert percentage (0-100%) to level (1-10)
-        # 0-10% = level 1, 11-20% = level 2, ..., 91-100% = level 10
-        level = max(1, min(10, (humidity + 9) // 10))
+        # Convert percentage (40-60%) to level (1-10)
+        level = max(1, min(10, (humidity - 40) // 2 + 1))
         
         await self.coordinator.client.set_humidity(self._sauna_id, level)
         # Force immediate refresh
