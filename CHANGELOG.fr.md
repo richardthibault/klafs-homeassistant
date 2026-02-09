@@ -11,6 +11,47 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.18] - 2026-02-09
+
+### Corrigé
+- **API HA moderne** : Utilisation de `async_register_static_paths` avec `StaticPathConfig` (méthode officielle HA 2024+)
+- Correction de `register_static_path` obsolète causant AttributeError dans les versions récentes de Home Assistant
+- Fonction maintenant correctement async avec appel `await` dans setup
+
+### Détails techniques
+- Import de `StaticPathConfig` depuis `homeassistant.components.http`
+- Import de `add_extra_js_url` depuis `homeassistant.components.frontend`
+- Utilisation de `await hass.http.async_register_static_paths([StaticPathConfig(...)])`
+- Les icônes devraient maintenant se charger correctement à `/klafs/iconset.js`
+
+---
+
+## [1.0.17] - 2026-02-09
+
+### Corrigé
+- **Service HTTP** : Service de iconset.js via HTTP au lieu de data URL (compatible CSP)
+- Utilisation de `register_static_path` pour servir le répertoire frontend
+- Icônes maintenant chargées via URL HTTP : `/klafs/iconset.js`
+
+### Modifié
+- Suppression de l'approche data URL (bloquée par CSP dans les versions récentes de HA)
+- Simplification en fonction d'enregistrement synchrone
+
+---
+
+## [1.0.16] - 2026-02-09
+
+### Corrigé
+- **Utilisation API correcte** : Utilisation de `from homeassistant.components import frontend` puis `frontend.add_extra_js_url()`
+- **Format iconset approprié** : Utilisation de l'API `window.customIconsets` selon la documentation HA
+- Les icônes utilisent maintenant l'API officielle Home Assistant custom iconsets (2020+)
+
+### Modifié
+- Réécriture de iconset.js pour utiliser `window.customIconsets` avec fonction async retournant `{path, viewBox}`
+- Simplification des chemins SVG pour une meilleure compatibilité
+
+---
+
 ## [1.0.15] - 2026-02-09
 
 ### Corrigé

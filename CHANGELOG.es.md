@@ -11,6 +11,21 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.18] - 2026-02-09
+
+### Corregido
+- **API HA moderna**: Uso de `async_register_static_paths` con `StaticPathConfig` (método oficial HA 2024+)
+- Corregido `register_static_path` obsoleto que causaba AttributeError en versiones recientes de Home Assistant
+- Función ahora correctamente async con llamada `await` en setup
+
+### Detalles técnicos
+- Importación de `StaticPathConfig` desde `homeassistant.components.http`
+- Importación de `add_extra_js_url` desde `homeassistant.components.frontend`
+- Uso de `await hass.http.async_register_static_paths([StaticPathConfig(...)])`
+- Los iconos ahora deberían cargarse correctamente en `/klafs/iconset.js`
+
+---
+
 ## [1.0.7] - 2026-02-09
 
 ### Corregido

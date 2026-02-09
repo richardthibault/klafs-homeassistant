@@ -11,6 +11,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.18] - 2026-02-09
+
+### Fixed
+- **Modern HA API**: Use `async_register_static_paths` with `StaticPathConfig` (official HA 2024+ method)
+- Fixed deprecated `register_static_path` causing AttributeError in recent Home Assistant versions
+- Function now properly async with `await` call in setup
+
+### Technical Details
+- Import `StaticPathConfig` from `homeassistant.components.http`
+- Import `add_extra_js_url` from `homeassistant.components.frontend`
+- Use `await hass.http.async_register_static_paths([StaticPathConfig(...)])`
+- Icons should now load correctly at `/klafs/iconset.js`
+
+---
+
+## [1.0.17] - 2026-02-09
+
+### Fixed
+- **HTTP serving**: Serve iconset.js via HTTP instead of data URL (CSP-safe)
+- Use `register_static_path` to serve frontend directory
+- Icons now loaded via HTTP URL: `/klafs/iconset.js`
+
+### Changed
+- Removed data URL approach (blocked by CSP in recent HA versions)
+- Simplified to synchronous registration function
+
+---
+
+## [1.0.16] - 2026-02-09
+
+### Fixed
+- **Correct API usage**: Use `from homeassistant.components import frontend` then `frontend.add_extra_js_url()`
+- **Proper iconset format**: Use `window.customIconsets` API as per HA documentation
+- Icons now use official Home Assistant custom iconsets API (2020+)
+
+### Changed
+- Rewrote iconset.js to use `window.customIconsets` with async function returning `{path, viewBox}`
+- Simplified SVG paths for better compatibility
+
+---
+
 ## [1.0.15] - 2026-02-09
 
 ### Fixed
