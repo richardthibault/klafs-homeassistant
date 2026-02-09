@@ -78,6 +78,44 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         self._detect_available_modes()
     
     @property
+    def available(self) -> bool:
+        """Return if entity is available.
+        
+        Mark as unavailable when data contains invalid sentinel values:
+        - Temperature > 120°C (141°C sentinel)
+        - Humidity = 0% (invalid sentinel)
+        """
+        if self._sauna_id not in self.coordinator.data:
+            return False
+        
+        data = self.coordinator.data[self._sauna_id]
+        
+        # Check if sauna is connected
+        if not data.get("isConnected", False):
+            return False
+        
+        # Check for invalid temperature (141°C sentinel)
+        temp = data.get("currentTemperature")
+        if temp is not None and temp > 120:
+            return False
+        
+        # Check for invalid humidity in SANARIUM mode (0% sentinel)
+        if data.get("sanariumSelected"):
+            humidity = data.get("currentHumidity")
+            if humidity is not None and humidity == 0:
+                return False
+        
+        return True
+        self._attr_name = "Sauna"
+        # Humidity range for SANARIUM: 40-58% (10 levels, 2% steps)
+        # Level 1=40%, Level 2=42%, ..., Level 10=58%
+        self._attr_min_humidity = 40
+        self._attr_max_humidity = 58
+        
+        # Detect available preset modes based on sauna capabilities
+        self._detect_available_modes()
+    
+    @property
     def supported_features(self) -> int:
         """Return the list of supported features."""
         features = (
