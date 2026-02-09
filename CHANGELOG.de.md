@@ -11,6 +11,14 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.5] - 2026-02-09
+
+### Behoben
+- **Icon-Registrierungs-Timing**: Symbole werden jetzt nach dem Laden der Plattformen registriert, um eine ordnungsgemäße Initialisierung sicherzustellen
+- Dies behebt das Problem, dass benutzerdefinierte Symbole nicht im Frontend angezeigt wurden
+
+---
+
 ## [1.0.4] - 2026-02-09
 
 ### Hinzugefügt

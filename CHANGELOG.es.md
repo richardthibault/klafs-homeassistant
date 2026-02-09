@@ -11,6 +11,14 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.5] - 2026-02-09
+
+### Corregido
+- **Timing de registro de iconos**: Los iconos ahora se registran después de cargar las plataformas, asegurando una inicialización correcta
+- Esto corrige el problema donde los iconos personalizados no aparecían en el frontend
+
+---
+
 ## [1.0.4] - 2026-02-09
 
 ### Añadido
