@@ -98,11 +98,13 @@ Content-Type: application/json
 Body:
 {
   "id": "sauna-id",
-  "mode": 1  // 1=Sauna, 2=Sanarium, 3=IR
+  "selected_mode": 1  // 1=Sauna, 2=Sanarium, 3=IR
 }
 
 Response: JSON { "Success": true/false, ... }
 ```
+
+**Note importante:** Le paramètre doit être `selected_mode` et non `mode`.
 
 ### Changer la Température
 ```
