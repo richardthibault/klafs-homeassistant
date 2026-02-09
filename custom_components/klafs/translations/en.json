@@ -31,5 +31,20 @@
     "abort": {
       "already_configured": "This account is already configured"
     }
+  },
+  "entity": {
+    "climate": {
+      "sauna": {
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "Sauna": "Sauna",
+              "SANARIUM": "SANARIUM",
+              "Infrared": "Infrared"
+            }
+          }
+        }
+      }
+    }
   }
 }

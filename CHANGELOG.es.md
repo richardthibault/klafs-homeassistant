@@ -11,6 +11,31 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.1.0] - 2026-02-09
+
+### Añadido
+- **Modos Preset**: La entidad climate ahora soporta selección de modo directamente en la interfaz
+  - Modo Sauna (10-100°C)
+  - Modo SANARIUM (40-75°C + control de humedad)
+  - Modo Infrarrojo (30-100°C)
+- Selección de modo integrada en interfaz climate (no necesita interruptor separado)
+- Límites de temperatura automáticos según el modo seleccionado
+- Cada modo recuerda su temperatura preferida (almacenada en sauna)
+
+### Cambiado
+- La entidad climate ahora usa modos preset en lugar de requerir un interruptor SANARIUM separado
+- Los límites de temperatura se ajustan automáticamente al cambiar de modo
+- Mejor experiencia de usuario con interfaz unificada
+
+### Técnico
+- Añadido soporte `ClimateEntityFeature.PRESET_MODE`
+- Añadido método `async_set_preset_mode()`
+- Modos preset: "Sauna", "SANARIUM", "Infrared"
+- El interruptor SANARIUM permanece disponible para compatibilidad hacia atrás
+- Traducciones añadidas para modos preset (EN/FR)
+
+---
+
 ## [1.0.24] - 2026-02-09
 
 ### Cambiado

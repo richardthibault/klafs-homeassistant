@@ -8,6 +8,7 @@ from homeassistant.components.climate import (
     ClimateEntity,
     ClimateEntityFeature,
     HVACMode,
+    PRESET_NONE,
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
@@ -20,14 +21,22 @@ from .const import (
     DOMAIN,
     MODE_SANARIUM,
     MODE_SAUNA,
+    MODE_IR,
     TEMP_MAX_SANARIUM,
     TEMP_MAX_SAUNA,
+    TEMP_MAX_IR,
     TEMP_MIN_SANARIUM,
     TEMP_MIN_SAUNA,
+    TEMP_MIN_IR,
 )
 from .icon_mapping import get_icon_for_climate_state
 
 _LOGGER = logging.getLogger(__name__)
+
+# Preset modes
+PRESET_SAUNA = "Sauna"
+PRESET_SANARIUM = "SANARIUM"
+PRESET_INFRARED = "Infrared"
 
 
 async def async_setup_entry(
@@ -51,9 +60,13 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
     _attr_has_entity_name = True
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
     _attr_supported_features = (
-        ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TURN_OFF
+        ClimateEntityFeature.TARGET_TEMPERATURE 
+        | ClimateEntityFeature.TURN_ON 
+        | ClimateEntityFeature.TURN_OFF
+        | ClimateEntityFeature.PRESET_MODE
     )
     _attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT]
+    _attr_preset_modes = [PRESET_SAUNA, PRESET_SANARIUM, PRESET_INFRARED]
 
     def __init__(
         self, coordinator: KlafsDataUpdateCoordinator, sauna_id: str
@@ -89,8 +102,13 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             return None
 
         data = self.coordinator.data[self._sauna_id]
+        
+        # Return the temperature for the current mode
         if data.get("sanariumSelected"):
             return data.get("selectedSanariumTemperature")
+        elif data.get("irSelected"):
+            # IR mode uses sauna temperature field
+            return data.get("selectedSaunaTemperature")
         else:
             return data.get("selectedSaunaTemperature")
 
@@ -103,21 +121,37 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         return HVACMode.OFF
 
     @property
+    def preset_mode(self) -> str | None:
+        """Return the current preset mode."""
+        if self._sauna_id not in self.coordinator.data:
+            return PRESET_SAUNA
+        
+        data = self.coordinator.data[self._sauna_id]
+        if data.get("sanariumSelected"):
+            return PRESET_SANARIUM
+        elif data.get("irSelected"):
+            return PRESET_INFRARED
+        else:
+            return PRESET_SAUNA
+
+    @property
     def min_temp(self) -> float:
         """Return the minimum temperature."""
-        if self._sauna_id in self.coordinator.data:
-            data = self.coordinator.data[self._sauna_id]
-            if data.get("sanariumSelected"):
-                return TEMP_MIN_SANARIUM
+        preset = self.preset_mode
+        if preset == PRESET_SANARIUM:
+            return TEMP_MIN_SANARIUM
+        elif preset == PRESET_INFRARED:
+            return TEMP_MIN_IR
         return TEMP_MIN_SAUNA
 
     @property
     def max_temp(self) -> float:
         """Return the maximum temperature."""
-        if self._sauna_id in self.coordinator.data:
-            data = self.coordinator.data[self._sauna_id]
-            if data.get("sanariumSelected"):
-                return TEMP_MAX_SANARIUM
+        preset = self.preset_mode
+        if preset == PRESET_SANARIUM:
+            return TEMP_MAX_SANARIUM
+        elif preset == PRESET_INFRARED:
+            return TEMP_MAX_IR
         return TEMP_MAX_SAUNA
 
     async def async_set_temperature(self, **kwargs: Any) -> None:
@@ -126,13 +160,42 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         if temperature is None:
             return
 
-        data = self.coordinator.data[self._sauna_id]
-        mode = MODE_SANARIUM if data.get("sanariumSelected") else MODE_SAUNA
+        # Clamp temperature to current mode limits
+        temperature = max(self.min_temp, min(self.max_temp, temperature))
+
+        # Determine mode from current preset
+        preset = self.preset_mode
+        if preset == PRESET_SANARIUM:
+            mode = MODE_SANARIUM
+        elif preset == PRESET_INFRARED:
+            mode = MODE_IR
+        else:
+            mode = MODE_SAUNA
 
         await self.coordinator.client.set_temperature(
             self._sauna_id, int(temperature), mode
         )
         await self.coordinator.async_request_refresh()
+
+    async def async_set_preset_mode(self, preset_mode: str) -> None:
+        """Set new preset mode (Sauna/SANARIUM/Infrared)."""
+        if preset_mode == PRESET_SANARIUM:
+            mode = MODE_SANARIUM
+        elif preset_mode == PRESET_INFRARED:
+            mode = MODE_IR
+        else:
+            mode = MODE_SAUNA
+
+        # Change mode on the sauna
+        await self.coordinator.client.set_mode(self._sauna_id, mode)
+        
+        # Wait for coordinator to update with new mode
+        await self.coordinator.async_request_refresh()
+        
+        # The API automatically restores the preferred temperature for each mode
+        # selectedSaunaTemperature is used for Sauna and IR modes
+        # selectedSanariumTemperature is used for SANARIUM mode
+        # No need to manually adjust temperature - the sauna remembers each mode's setting
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set new HVAC mode."""
@@ -159,13 +222,10 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             "current_humidity": data.get("currentHumidity"),
         }
 
+        # Add humidity level for SANARIUM mode
         if data.get("sanariumSelected"):
-            attrs["mode"] = "SANARIUM"
             attrs["humidity_level"] = data.get("selectedHumLevel")
-        elif data.get("saunaSelected"):
-            attrs["mode"] = "Sauna"
-        elif data.get("irSelected"):
-            attrs["mode"] = "Infrared"
+            attrs["target_humidity"] = data.get("selectedHumLevel")
 
         return attrs
     
