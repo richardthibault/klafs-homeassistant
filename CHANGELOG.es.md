@@ -10,6 +10,16 @@ Para el historial completo de versiones, consulte la [versión en inglés](CHANG
 
 ---
 
+## [1.0.3] - 2026-02-09
+
+### Corregido
+- **Problema de visualización de iconos**: Reemplazados iconos personalizados `klafs:sauna-*` por iconos MDI estándar
+  - Los iconos SVG personalizados se mantienen en el repositorio para uso futuro
+  - Ahora usando `mdi:sauna` (predeterminado/apagado), `mdi:fire` (calentando), `mdi:check-circle` (listo)
+  - Los iconos ahora se muestran correctamente sin configuración adicional
+
+---
+
 ## [1.0.2] - 2026-02-09
 
 ### Añadido

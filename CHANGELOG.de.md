@@ -10,6 +10,16 @@ Für die vollständige Versionshistorie siehe die [englische Version](CHANGELOG.
 
 ---
 
+## [1.0.3] - 2026-02-09
+
+### Behoben
+- **Symbol-Anzeigeproblem**: Benutzerdefinierte `klafs:sauna-*` Symbole durch Standard-MDI-Symbole ersetzt
+  - Benutzerdefinierte SVG-Symbole bleiben im Repository für zukünftige Verwendung
+  - Jetzt mit `mdi:sauna` (Standard/Aus), `mdi:fire` (Heizen), `mdi:check-circle` (Bereit)
+  - Symbole werden jetzt korrekt ohne zusätzliche Konfiguration angezeigt
+
+---
+
 ## [1.0.2] - 2026-02-09
 
 ### Hinzugefügt

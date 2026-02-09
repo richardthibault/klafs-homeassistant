@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.3] - 2026-02-09
+
+### Fixed
+- **Icon display issue**: Replaced custom `klafs:sauna-*` icons with standard MDI icons
+  - Custom SVG icons are kept in the repository for future use
+  - Now using `mdi:sauna` (default/off), `mdi:fire` (heating), `mdi:check-circle` (ready)
+  - Icons now display correctly without requiring additional configuration
+
+### Technical
+- Home Assistant custom integrations cannot easily embed custom icon sets without external dependencies
+- Standard MDI icons provide better compatibility and immediate functionality
+
+---
+
 ## [1.0.2] - 2026-02-09
 
 ### Added

@@ -11,6 +11,20 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.3] - 2026-02-09
+
+### Corrigé
+- **Problème d'affichage des icônes** : Remplacement des icônes personnalisées `klafs:sauna-*` par des icônes MDI standard
+  - Les icônes SVG personnalisées sont conservées dans le dépôt pour usage futur
+  - Utilisation maintenant de `mdi:sauna` (défaut/éteint), `mdi:fire` (en chauffe), `mdi:check-circle` (prêt)
+  - Les icônes s'affichent maintenant correctement sans configuration supplémentaire
+
+### Technique
+- Les intégrations personnalisées Home Assistant ne peuvent pas facilement embarquer des jeux d'icônes personnalisés sans dépendances externes
+- Les icônes MDI standard offrent une meilleure compatibilité et une fonctionnalité immédiate
+
+---
+
 ## [1.0.2] - 2026-02-09
 
 ### Ajouté
