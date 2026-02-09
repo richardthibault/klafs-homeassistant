@@ -4,89 +4,54 @@
 
 Alle wichtigen Änderungen an diesem Projekt werden in dieser Datei dokumentiert.
 
+Das Format basiert auf [Keep a Changelog](https://keepachangelog.com/de/1.0.0/),
+und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
+
 **Für geplante zukünftige Funktionen siehe [FUTURELOG.de.md](FUTURELOG.de.md)**
 
-Für die vollständige Versionshistorie siehe die [englische Version](CHANGELOG.md).
+---
+
+## [1.0.4] - 2026-02-09
+
+### Hinzugefügt
+- **Benutzerdefiniertes Icon-Set**: Integration enthält jetzt benutzerdefinierte Symbole mit `klafs:` Präfix
+  - `klafs:sauna` - Standard/neutraler Zustand
+  - `klafs:sauna-heating` - Sauna heizt auf (mit Hitzewellen)
+  - `klafs:sauna-ready` - Sauna ist bereit (volles Thermometer + Häkchen)
+  - `klafs:sauna-off` - Sauna ist ausgeschaltet (ausgegraute Elemente)
+  - Symbole ändern sich automatisch je nach Saunastatus
+  - Alle Symbole verwenden `fill="currentColor"` für Theme-Kompatibilität
+  - Funktioniert mit Home Assistant ≥ 2023.x
+- **Mehrsprachige Dokumentation**: Dokumentation für benutzerdefinierte Symbole in 4 Sprachen (EN/FR/DE/ES)
+- **Automatisches Icon-Mapping**: Symbole ändern sich automatisch basierend auf Entitätsstatus
+  - Keine Konfiguration erforderlich
+  - Funktioniert mit Sensor- und Climate-Entitäten
+
+### Geändert
+- Symbole von `icons/` nach `frontend/icons/` verschoben
+- Symbole werden jetzt als statische Dateien über `/local/klafs/icons/` bereitgestellt
+- `icon_mapping.py` für zentralisierte Icon-Status-Verwaltung hinzugefügt
+
+### Technisch
+- `frontend/iconset.js` für Icon-Registrierung im Home Assistant Frontend hinzugefügt
+- `__init__.py` aktualisiert, um statische Pfade zu registrieren und Iconset zu laden
+- `sensor.py` und `climate.py` aktualisiert, um dynamische Icon-Eigenschaften zu verwenden
+- Symbole passen sich automatisch an helle/dunkle Themes an
 
 ---
 
 ## [1.0.3] - 2026-02-09
 
 ### Behoben
-- **Symbol-Anzeigeproblem**: Benutzerdefinierte `klafs:sauna-*` Symbole durch Standard-MDI-Symbole ersetzt
-  - Benutzerdefinierte SVG-Symbole bleiben im Repository für zukünftige Verwendung
-  - Jetzt mit `mdi:sauna` (Standard/Aus), `mdi:fire` (Heizen), `mdi:check-circle` (Bereit)
+- **Icon-Anzeigeproblem**: Benutzerdefinierte `klafs:sauna-*` Symbole durch Standard-MDI-Symbole ersetzt
+  - Benutzerdefinierte SVG-Symbole werden im Repository für zukünftige Verwendung aufbewahrt
+  - Jetzt werden `mdi:sauna` (Standard/aus), `mdi:fire` (Heizen), `mdi:check-circle` (Bereit) verwendet
   - Symbole werden jetzt korrekt ohne zusätzliche Konfiguration angezeigt
 
----
-
-## [1.0.2] - 2026-02-09
-
-### Hinzugefügt
-- **Benutzerdefinierte SVG-Symbole** mit dynamischer Farbunterstützung
-  - 4 zustandsspezifische Symbole: Standard, Aus, Heizen, Bereit
-  - Symbole passen sich dem Home Assistant-Theme an (hell/dunkel)
-  - Heizkörper-Design mit sichtbaren Stäben und Heizsteinen
-  - Thermometer zeigt Temperaturniveau (0%, 25%, 50%, 100%)
-- **PNG-Branding-Symbole** für HACS und Home Assistant (256x256, 512x512)
-
-### Geändert
-- Sensor-Symbole verwenden jetzt benutzerdefinierte `klafs:sauna-*` Symbole
+### Technisch
+- Benutzerdefinierte Home Assistant Integrationen können nicht einfach benutzerdefinierte Icon-Sets ohne externe Abhängigkeiten einbetten
+- Standard-MDI-Symbole bieten bessere Kompatibilität und sofortige Funktionalität
 
 ---
 
-## [1.0.1] - 2026-02-09
-
-### Behoben
-- **Kritischer Wiederverbindungsfehler**: Sauna wurde nach WLAN-Verbindungsverlust nicht mehr erkannt
-  - Koordinator behält Saunen jetzt auch bei Trennung in den Daten
-  - Verbesserte Fehlerbehandlung pro einzelner Sauna
-  - Entitäten bleiben verfügbar und verbinden sich automatisch wieder
-  - Keine Deinstallation/Neuinstallation der Integration nach Verbindungsverlust mehr erforderlich
-
----
-
-## [1.0.0] - 2026-01-28
-
-### Hinzugefügt
-- Erste Integration mit Klafs API
-- **Multi-Sauna-Unterstützung**: Mehrere Saunen von einem Konto verwalten
-- **Individueller PIN-Code pro Sauna**: Jede Sauna kann ihren eigenen PIN haben
-- **3-Schritt-Konfiguration**: Anmeldedaten → Sauna-Auswahl → PIN-Konfiguration
-- Climate-Entität (Thermostat) zur Steuerung jeder Sauna
-- Temperatur-, Feuchtigkeits- und Statussensoren pro Sauna
-- Schalter zum Umschalten zwischen Sauna- und SANARIUM-Modi
-- Dienste: `power_on_with_pin`, `set_humidity_level`, `set_start_time`
-- Unterstützung für Modi: Klassische Sauna, SANARIUM, Infrarot
-- Automatisches Polling alle 60 Sekunden
-- Französische und englische Übersetzungen
-- Vollständige Dokumentation
-- HACS-Unterstützung
-
-### Funktionen
-- Temperaturregelung (10-100°C je nach Modus)
-- Fernbedienung Ein/Aus
-- Echtzeit-Überwachung von Temperatur und Luftfeuchtigkeit
-- Sauna-Verbindungsstatus
-- "Bereit"-Anzeige wenn Sauna bereit ist
-
-### Sicherheit
-- Sichere Speicherung der Anmeldedaten
-- Obligatorische PIN-Code-Unterstützung zum Einschalten
-- Nur HTTPS-Kommunikation
-
----
-
-## Vollständige Versionshinweise
-
-Für detaillierte Versionshinweise, Migrationsanleitungen und vollständige Änderungslisten siehe die [englische Version](CHANGELOG.md).
-
----
-
-**Legende:**
-- `Hinzugefügt`: Neue Funktionen
-- `Geändert`: Änderungen an bestehenden Funktionen
-- `Veraltet`: Bald zu entfernende Funktionen
-- `Entfernt`: Entfernte Funktionen
-- `Behoben`: Fehlerbehebungen
-- `Sicherheit`: Behebung von Sicherheitslücken
+Vollständiges Changelog (EN): [CHANGELOG.md](CHANGELOG.md)
