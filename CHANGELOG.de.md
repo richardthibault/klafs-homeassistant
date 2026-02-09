@@ -11,6 +11,15 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.24] - 2026-02-09
+
+### Geändert
+- **Vergrößerte Icon-Anzeige**: ViewBox angepasst, um Symbole größer erscheinen zu lassen
+- Symbole entsprechen jetzt der Größe anderer Home Assistant Symbole
+- Bessere Sichtbarkeit in Entitätskarten und Dashboards
+
+---
+
 ## [1.0.23] - 2026-02-09
 
 ### Geändert

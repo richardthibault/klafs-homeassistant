@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.24] - 2026-02-09
+
+### Changed
+- **Enlarged icon display**: Adjusted viewBox to make icons appear larger
+- Icons now match the size of other Home Assistant icons
+- Better visibility in entity cards and dashboards
+
+---
+
 ## [1.0.23] - 2026-02-09
 
 ### Changed

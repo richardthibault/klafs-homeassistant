@@ -11,6 +11,15 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.0.24] - 2026-02-09
+
+### Cambiado
+- **Visualización de iconos ampliada**: ViewBox ajustado para hacer los iconos más grandes
+- Los iconos ahora coinciden con el tamaño de otros iconos de Home Assistant
+- Mejor visibilidad en tarjetas de entidades y paneles
+
+---
+
 ## [1.0.23] - 2026-02-09
 
 ### Cambiado

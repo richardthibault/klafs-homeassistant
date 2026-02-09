@@ -11,6 +11,15 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.24] - 2026-02-09
+
+### Modifié
+- **Affichage des icônes agrandi** : Ajustement du viewBox pour rendre les icônes plus grandes
+- Les icônes correspondent maintenant à la taille des autres icônes Home Assistant
+- Meilleure visibilité dans les cartes d'entités et tableaux de bord
+
+---
+
 ## [1.0.23] - 2026-02-09
 
 ### Modifié
