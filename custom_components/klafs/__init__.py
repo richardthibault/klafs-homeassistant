@@ -251,26 +251,32 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
 async def _register_custom_icons(hass: HomeAssistant) -> None:
     """Register custom Klafs icons for Home Assistant frontend."""
     try:
-        # Get the path to the frontend directory
+        # Get the path to the integration directory
         integration_path = Path(__file__).parent
+        icons_path = integration_path / "icons"
         frontend_path = integration_path / "frontend"
+        
+        if not icons_path.exists():
+            _LOGGER.warning("Icons directory not found at %s", icons_path)
+            return
         
         if not frontend_path.exists():
             _LOGGER.warning("Frontend directory not found at %s", frontend_path)
             return
         
-        # Register static path for entire frontend directory
-        # This serves:
-        # - /local/klafs/iconset.js
-        # - /local/klafs/icons/sauna.svg
-        # - /local/klafs/icons/sauna-heating.svg
-        # - etc.
-        hass.http.register_static_path(
-            f"/local/{DOMAIN}",
-            str(frontend_path),
-            cache_headers=False,
-        )
-        _LOGGER.debug("Registered static path: /local/%s -> %s", DOMAIN, frontend_path)
+        # Register static paths using the correct async API
+        await hass.http.async_register_static_paths([
+            {
+                "url_path": f"/local/{DOMAIN}/icons",
+                "path": str(icons_path),
+            },
+            {
+                "url_path": f"/local/{DOMAIN}",
+                "path": str(frontend_path),
+            }
+        ])
+        _LOGGER.debug("Registered static paths: /local/%s/icons -> %s", DOMAIN, icons_path)
+        _LOGGER.debug("Registered static paths: /local/%s -> %s", DOMAIN, frontend_path)
         
         # Load iconset.js automatically into frontend
         hass.components.frontend.add_extra_js_url(hass, f"/local/{DOMAIN}/iconset.js")

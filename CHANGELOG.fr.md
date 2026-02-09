@@ -11,6 +11,19 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.11] - 2026-02-09
+
+### Corrigé
+- **Compatibilité API** : Correction `register_static_path` → `async_register_static_paths` pour Home Assistant moderne
+- **Emplacement icônes** : Déplacement des icônes de `frontend/icons/` vers `icons/` pour une structure plus simple
+- Correction AttributeError au démarrage de Home Assistant
+
+### Modifié
+- Icônes maintenant dans le répertoire `custom_components/klafs/icons/`
+- Utilisation de l'API async correcte pour l'enregistrement des chemins statiques
+
+---
+
 ## [1.0.10] - 2026-02-09
 
 ### Corrigé
