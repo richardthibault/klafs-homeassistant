@@ -277,7 +277,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         await self.coordinator.client.set_temperature(
             self._sauna_id, int(temperature), mode
         )
-        # Force immediate refresh
+        # Wait 2 seconds for API to update, then refresh
+        import asyncio
+        await asyncio.sleep(2)
         await self.coordinator.async_refresh()
 
     async def async_set_humidity(self, humidity: int) -> None:
@@ -300,7 +302,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         level = max(1, min(10, level))
         
         await self.coordinator.client.set_humidity(self._sauna_id, level)
-        # Force immediate refresh
+        # Wait 2 seconds for API to update, then refresh
+        import asyncio
+        await asyncio.sleep(2)
         await self.coordinator.async_refresh()
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
@@ -315,7 +319,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         # Change mode on the sauna
         await self.coordinator.client.set_mode(self._sauna_id, mode)
         
-        # Force immediate refresh to update UI quickly
+        # Wait 2 seconds for API to update, then refresh
+        import asyncio
+        await asyncio.sleep(2)
         await self.coordinator.async_refresh()
         
         # The API automatically restores the preferred temperature for each mode
