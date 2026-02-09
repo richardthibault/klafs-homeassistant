@@ -11,7 +11,7 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
-## [1.1.0] - 2026-02-09
+## [1.0.4] - 2026-02-09
 
 ### Ajouté
 - **Jeu d'Icônes Personnalisées** : L'intégration inclut maintenant des icônes custom avec le préfixe `klafs:`

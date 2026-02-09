@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [1.1.0] - 2026-02-09
+## [1.0.4] - 2026-02-09
 
 ### Added
 - **Custom Icon Set**: Integration now includes custom icons with `klafs:` prefix
