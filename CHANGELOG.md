@@ -11,6 +11,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.1] - 2026-02-09
+
+### Fixed
+- **Debug logging**: Added detailed logging to diagnose preset mode API errors
+- Debug log file created at `/config/klafs_debug.log` for troubleshooting
+- Enhanced error messages for API calls
+
+### Technical
+- Added `_write_debug_log()` function to write detailed API call information
+- Logs include: endpoint, payload, response status, and response body
+- Helps diagnose HTTP 500 errors when changing modes
+
+---
+
 ## [1.1.0] - 2026-02-09
 
 ### Added

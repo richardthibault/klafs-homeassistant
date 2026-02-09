@@ -11,6 +11,20 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [1.1.1] - 2026-02-09
+
+### Corregido
+- **Registro de depuración**: Añadido registro detallado para diagnosticar errores de API de modos preset
+- Archivo de registro de depuración creado en `/config/klafs_debug.log` para solución de problemas
+- Mensajes de error mejorados para llamadas API
+
+### Técnico
+- Añadida función `_write_debug_log()` para escribir información detallada de llamadas API
+- Los registros incluyen: endpoint, payload, estado de respuesta y cuerpo de respuesta
+- Ayuda a diagnosticar errores HTTP 500 al cambiar de modo
+
+---
+
 ## [1.1.0] - 2026-02-09
 
 ### Añadido

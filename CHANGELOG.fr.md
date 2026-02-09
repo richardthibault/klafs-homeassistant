@@ -11,6 +11,20 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.1.1] - 2026-02-09
+
+### Corrigé
+- **Logs de débogage** : Ajout de logs détaillés pour diagnostiquer les erreurs API des modes preset
+- Fichier de log de débogage créé à `/config/klafs_debug.log` pour dépannage
+- Messages d'erreur améliorés pour les appels API
+
+### Technique
+- Ajout de la fonction `_write_debug_log()` pour écrire les informations détaillées des appels API
+- Les logs incluent : endpoint, payload, statut de réponse et corps de réponse
+- Aide à diagnostiquer les erreurs HTTP 500 lors du changement de mode
+
+---
+
 ## [1.1.0] - 2026-02-09
 
 ### Ajouté

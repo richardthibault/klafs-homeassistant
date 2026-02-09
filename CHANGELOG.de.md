@@ -11,6 +11,20 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.1.1] - 2026-02-09
+
+### Behoben
+- **Debug-Protokollierung**: Detaillierte Protokollierung zur Diagnose von Preset-Modus-API-Fehlern hinzugefügt
+- Debug-Protokolldatei erstellt unter `/config/klafs_debug.log` zur Fehlerbehebung
+- Verbesserte Fehlermeldungen für API-Aufrufe
+
+### Technisch
+- Funktion `_write_debug_log()` hinzugefügt zum Schreiben detaillierter API-Aufruf-Informationen
+- Protokolle enthalten: Endpoint, Payload, Antwortstatus und Antwortkörper
+- Hilft bei der Diagnose von HTTP 500-Fehlern beim Moduswechsel
+
+---
+
 ## [1.1.0] - 2026-02-09
 
 ### Hinzugefügt

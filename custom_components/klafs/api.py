@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import logging
 from typing import Any
+from datetime import datetime
 
 import aiohttp
 
@@ -19,6 +20,18 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+
+# Debug log file
+DEBUG_LOG_FILE = "/config/klafs_debug.log"
+
+def _write_debug_log(message: str):
+    """Write debug message to file."""
+    try:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(DEBUG_LOG_FILE, "a") as f:
+            f.write(f"[{timestamp}] {message}\n")
+    except Exception:
+        pass  # Ignore file write errors
 
 
 class KlafsApiClient:
@@ -130,6 +143,13 @@ class KlafsApiClient:
         """Send control commands to sauna."""
         try:
             payload = {"id": sauna_id, **control_data}
+            _write_debug_log(f"=== SET SAUNA CONTROL ===")
+            _write_debug_log(f"Endpoint: {endpoint}")
+            _write_debug_log(f"Sauna ID: {sauna_id[:8]}...")
+            _write_debug_log(f"Control data: {control_data}")
+            _write_debug_log(f"Full payload: {payload}")
+            
+            _LOGGER.debug("Sending control command to %s with payload: %s", endpoint, payload)
 
             async with self.session.post(
                 f"{API_BASE_URL}{endpoint}",
@@ -137,6 +157,13 @@ class KlafsApiClient:
                 cookies=self.cookies,
                 headers={"Content-Type": "application/json"},
             ) as response:
+                response_text = await response.text()
+                _write_debug_log(f"Response status: {response.status}")
+                _write_debug_log(f"Response body: {response_text}")
+                _write_debug_log(f"========================\n")
+                
+                _LOGGER.debug("Response status: %s, body: %s", response.status, response_text)
+                
                 if response.status == 200:
                     result = await response.json()
                     if result.get("Success", False):
@@ -147,10 +174,11 @@ class KlafsApiClient:
                         return False
                 else:
                     _LOGGER.error(
-                        "Failed to send control command: %s", response.status
+                        "Failed to send control command: %s - Response: %s", response.status, response_text
                     )
                     return False
         except Exception as err:
+            _write_debug_log(f"EXCEPTION: {err}")
             _LOGGER.error("Error sending control command: %s", err)
             return False
 
@@ -182,8 +210,14 @@ class KlafsApiClient:
 
     async def set_mode(self, sauna_id: str, mode: int) -> bool:
         """Set sauna mode (Sauna/SANARIUM/IR)."""
+        _write_debug_log(f"\n>>> SET_MODE called: sauna={sauna_id[:8]}, mode={mode}")
+        _LOGGER.debug("Setting mode for sauna %s to mode %d", sauna_id[:8], mode)
         control_data = {"mode": mode}
-        return await self.set_sauna_control(sauna_id, API_SET_MODE_ENDPOINT, control_data)
+        _LOGGER.debug("Control data: %s", control_data)
+        result = await self.set_sauna_control(sauna_id, API_SET_MODE_ENDPOINT, control_data)
+        _write_debug_log(f"<<< SET_MODE result: {result}\n")
+        _LOGGER.debug("Set mode result: %s", result)
+        return result
 
     async def set_start_time(self, sauna_id: str, hour: int, minute: int) -> bool:
         """Set start time for sauna preheating."""
