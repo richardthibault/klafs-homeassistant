@@ -2,23 +2,46 @@
 
 # Ejemplos de Uso - Klafs Sauna
 
-## Resumen
+## Agregar Tarjeta de Control (Recomendado) 🎨
 
-Este documento contiene ejemplos completos para usar la integración Klafs Sauna en Home Assistant, incluyendo:
+Para tener todos los controles de la sauna agrupados en una sola tarjeta:
 
-- **Servicios disponibles**: Encender con PIN, ajustar humedad, programar hora de inicio
-- **Automatizaciones avanzadas**: Rutina matinal de fin de semana, precalentamiento inteligente basado en ubicación, apagado automático
-- **Automatizaciones de seguridad**: Alertas cuando nadie está en casa
-- **Programas semanales**: Diferentes modos para diferentes días de la semana
-- **Tarjetas Lovelace**: Configuraciones de UI simples y avanzadas
-- **Scripts útiles**: Modo SANARIUM, Sauna finlandés, parada de emergencia
-- **Integración con asistentes de voz**: Escenas para Google Assistant y Alexa
+**Pasos simples:**
 
-## Documentación Completa
+1. Abra un panel (o cree uno nuevo)
+2. Haga clic en **+ Agregar tarjeta**
+3. Seleccione **"Entidades"**
+4. Agregue estas entidades:
+   - `climate.klafs_sauna` (Termostato principal)
+   - `time.klafs_sauna_scheduled_start_time` (Hora de inicio programada)
+   - `sensor.klafs_sauna_status` (Estado de la sauna)
+5. Haga clic en **"Guardar"**
 
-Para ejemplos detallados con código completo, consulte la [versión en inglés](../en/EXAMPLES.md).
+**La tarjeta mostrará:**
+- 🌡️ Control de temperatura con deslizador
+- 🔥 Selección de modos (Sauna / SANARIUM / Infrarrojo)
+- ⏰ Selector de hora programada (con ruedas de desplazamiento)
+- 🔘 Botones Encender/Apagar
+- 📊 Estado en tiempo real
 
-## Ejemplos de Inicio Rápido
+**Configuración YAML (opcional):**
+
+Si prefiere configurar en YAML:
+
+```yaml
+type: entities
+title: Control Sauna
+entities:
+  - entity: climate.klafs_sauna
+  - entity: time.klafs_sauna_scheduled_start_time
+    name: Inicio Programado
+  - entity: sensor.klafs_sauna_status
+    name: Estado
+```
+
+---
+
+## Servicios Disponibles
 
 ### Encender sauna con PIN
 

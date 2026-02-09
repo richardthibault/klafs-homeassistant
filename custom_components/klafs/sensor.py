@@ -36,6 +36,7 @@ async def async_setup_entry(
                 KlafsSaunaTemperatureSensor(coordinator, sauna_id),
                 KlafsSaunaHumiditySensor(coordinator, sauna_id),
                 KlafsSaunaStatusSensor(coordinator, sauna_id),
+                KlafsSaunaScheduledStartTimeSensor(coordinator, sauna_id),
             ]
         )
 
@@ -176,4 +177,61 @@ class KlafsSaunaStatusSensor(CoordinatorEntity, SensorEntity):
             "is_connected": data.get("isConnected", False),
             "is_powered_on": data.get("isPoweredOn", False),
             "is_ready": data.get("isReadyForUse", False),
+        }
+
+
+
+class KlafsSaunaScheduledStartTimeSensor(CoordinatorEntity, SensorEntity):
+    """Scheduled start time sensor for Klafs Sauna."""
+
+    _attr_has_entity_name = True
+    _attr_icon = "mdi:clock-start"
+
+    def __init__(
+        self, coordinator: KlafsDataUpdateCoordinator, sauna_id: str
+    ) -> None:
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._sauna_id = sauna_id
+        self._attr_unique_id = f"{sauna_id}_scheduled_start_time_sensor"
+        self._attr_name = "Scheduled Start Time"
+
+    @property
+    def device_info(self):
+        """Return device information."""
+        sauna_name = self.coordinator.get_sauna_name(self._sauna_id)
+        return {
+            "identifiers": {(DOMAIN, self._sauna_id)},
+            "name": f"Klafs {sauna_name}",
+            "manufacturer": "Klafs",
+            "model": "Sauna",
+        }
+
+    @property
+    def native_value(self) -> str | None:
+        """Return the scheduled start time."""
+        if self._sauna_id not in self.coordinator.data:
+            return None
+
+        data = self.coordinator.data[self._sauna_id]
+        time_selected = data.get("timeSelected", False)
+        
+        if not time_selected:
+            return "Not scheduled"
+        
+        hour = data.get("selectedHour", 0)
+        minute = data.get("selectedMinute", 0)
+        return f"{hour:02d}:{minute:02d}"
+
+    @property
+    def extra_state_attributes(self) -> dict[str, any]:
+        """Return additional state attributes."""
+        if self._sauna_id not in self.coordinator.data:
+            return {}
+        
+        data = self.coordinator.data[self._sauna_id]
+        return {
+            "enabled": data.get("timeSelected", False),
+            "hour": data.get("selectedHour", 0),
+            "minute": data.get("selectedMinute", 0),
         }

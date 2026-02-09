@@ -2,6 +2,45 @@
 
 # Exemples d'utilisation - Klafs Sauna
 
+## Ajouter une carte de contrôle (Recommandé) 🎨
+
+Pour avoir tous les contrôles du sauna regroupés dans une seule carte :
+
+**Étapes simples :**
+
+1. Ouvrez un tableau de bord (ou créez-en un nouveau)
+2. Cliquez sur **+ Ajouter une carte**
+3. Sélectionnez **"Entités"**
+4. Ajoutez ces entités :
+   - `climate.klafs_sauna` (Thermostat principal)
+   - `time.klafs_sauna_scheduled_start_time` (Heure de démarrage programmée)
+   - `sensor.klafs_sauna_status` (Statut du sauna)
+5. Cliquez sur **"Enregistrer"**
+
+**La carte affichera :**
+- 🌡️ Contrôle de température avec slider
+- 🔥 Sélection des modes (Sauna / SANARIUM / Infrarouge)
+- ⏰ Sélecteur d'heure programmée (avec roues de défilement)
+- 🔘 Boutons Marche/Arrêt
+- 📊 Statut en temps réel
+
+**Configuration YAML (optionnelle) :**
+
+Si vous préférez configurer en YAML :
+
+```yaml
+type: entities
+title: Contrôle Sauna
+entities:
+  - entity: climate.klafs_sauna
+  - entity: time.klafs_sauna_scheduled_start_time
+    name: Heure de démarrage
+  - entity: sensor.klafs_sauna_status
+    name: Statut
+```
+
+---
+
 ## Services disponibles
 
 ### 1. Allumer avec code PIN
@@ -26,6 +65,8 @@ data:
 
 ### 3. Programmer l'heure de démarrage
 
+#### Option A : Via service (simple)
+
 ```yaml
 service: klafs.set_start_time
 target:
@@ -34,6 +75,58 @@ data:
   hour: 18
   minute: 30
 ```
+
+#### Option B : Avec sélecteur d'heure visuel (recommandé)
+
+Pour avoir un beau sélecteur d'heure dans votre interface, suivez ces étapes :
+
+**Étape 1 : Créer un helper "Heure"**
+
+1. Allez dans **Configuration** → **Appareils et services** → **Helpers**
+2. Cliquez sur **+ Créer un helper**
+3. Sélectionnez **Heure**
+4. Configurez :
+   - **Nom** : `Heure démarrage sauna`
+   - **Icône** : `mdi:clock-start` (optionnel)
+5. Cliquez sur **Créer**
+
+Cela créera l'entité `input_datetime.heure_demarrage_sauna`
+
+**Étape 2 : Créer l'automation de synchronisation**
+
+Allez dans **Configuration** → **Automatisations et scènes** → **+ Créer une automation** → **Créer une nouvelle automation** → **Mode YAML**
+
+Collez ce code :
+
+```yaml
+alias: Synchroniser heure démarrage sauna
+description: Synchronise le helper time avec l'heure de démarrage du sauna
+trigger:
+  - platform: state
+    entity_id: input_datetime.heure_demarrage_sauna
+condition: []
+action:
+  - service: klafs.set_start_time
+    target:
+      entity_id: climate.klafs_sauna
+    data:
+      hour: "{{ states('input_datetime.heure_demarrage_sauna').split(':')[0] | int }}"
+      minute: "{{ states('input_datetime.heure_demarrage_sauna').split(':')[1] | int }}"
+mode: single
+```
+
+**Étape 3 : Ajouter au dashboard**
+
+Ajoutez une carte dans votre dashboard :
+
+```yaml
+type: entities
+entities:
+  - entity: input_datetime.heure_demarrage_sauna
+    name: Heure de démarrage
+```
+
+Vous aurez maintenant un beau sélecteur d'heure avec roues de défilement ! 🎯
 
 ## Automatisations avancées
 

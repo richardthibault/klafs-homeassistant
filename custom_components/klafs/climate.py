@@ -125,7 +125,7 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         
         # Filter out invalid temperature values
         # When sauna is off, API returns 141°C (sentinel value)
-        # Valid sauna temperatures are 10-100°C
+        # Return None so HA displays "--" instead of invalid temperature
         if temp is None or temp > 120:
             return None
         
@@ -255,7 +255,6 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             "is_connected": data.get("isConnected", False),
             "is_ready_for_use": data.get("isReadyForUse", False),
             "status_code": data.get("statusCode"),
-            "current_humidity": data.get("currentHumidity"),
         }
 
         # Add temperature status message when sauna is off
@@ -274,8 +273,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         else:
             attrs["scheduled_start_enabled"] = False
         
-        # Add humidity level for SANARIUM mode
+        # Add humidity level ONLY for SANARIUM mode
         if data.get("sanariumSelected"):
+            attrs["current_humidity"] = data.get("currentHumidity")
             attrs["humidity_level"] = data.get("selectedHumLevel")
             attrs["target_humidity"] = data.get("selectedHumLevel")
 

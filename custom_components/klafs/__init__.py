@@ -22,6 +22,7 @@ PLATFORMS: list[Platform] = [
     Platform.CLIMATE,
     Platform.SENSOR,
     Platform.SWITCH,
+    Platform.TIME,
 ]
 
 SCAN_INTERVAL = timedelta(seconds=60)

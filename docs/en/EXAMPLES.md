@@ -2,6 +2,45 @@
 
 # Usage Examples - Klafs Sauna
 
+## Add a Control Card (Recommended) 🎨
+
+To have all sauna controls grouped in a single card:
+
+**Simple steps:**
+
+1. Open a dashboard (or create a new one)
+2. Click **+ Add Card**
+3. Select **"Entities"**
+4. Add these entities:
+   - `climate.klafs_sauna` (Main thermostat)
+   - `time.klafs_sauna_scheduled_start_time` (Scheduled start time)
+   - `sensor.klafs_sauna_status` (Sauna status)
+5. Click **"Save"**
+
+**The card will display:**
+- 🌡️ Temperature control with slider
+- 🔥 Mode selection (Sauna / SANARIUM / Infrared)
+- ⏰ Scheduled time selector (with scroll wheels)
+- 🔘 On/Off buttons
+- 📊 Real-time status
+
+**YAML configuration (optional):**
+
+If you prefer to configure in YAML:
+
+```yaml
+type: entities
+title: Sauna Control
+entities:
+  - entity: climate.klafs_sauna
+  - entity: time.klafs_sauna_scheduled_start_time
+    name: Scheduled Start
+  - entity: sensor.klafs_sauna_status
+    name: Status
+```
+
+---
+
 ## Available Services
 
 ### 1. Power On with PIN Code

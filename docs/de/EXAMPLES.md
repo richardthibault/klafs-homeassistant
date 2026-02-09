@@ -2,23 +2,46 @@
 
 # Nutzungsbeispiele - Klafs Sauna
 
-## Zusammenfassung
+## Steuerkarte hinzufügen (Empfohlen) 🎨
 
-Dieses Dokument enthält umfassende Beispiele für die Verwendung der Klafs Sauna Integration in Home Assistant, einschließlich:
+Um alle Sauna-Steuerelemente in einer Karte zu gruppieren:
 
-- **Verfügbare Dienste**: Einschalten mit PIN, Luftfeuchtigkeit einstellen, Startzeit programmieren
-- **Erweiterte Automatisierungen**: Wochenend-Morgenroutine, intelligentes Vorheizen basierend auf Standort, automatisches Ausschalten
-- **Sicherheitsautomatisierungen**: Warnungen wenn niemand zu Hause ist
-- **Wochenpläne**: Verschiedene Modi für verschiedene Wochentage
-- **Lovelace-Karten**: Einfache und erweiterte UI-Konfigurationen
-- **Nützliche Skripte**: SANARIUM-Modus, Finnische Sauna, Notausschaltung
-- **Sprachassistenten-Integration**: Google Assistant und Alexa Szenen
+**Einfache Schritte:**
 
-## Vollständige Dokumentation
+1. Öffnen Sie ein Dashboard (oder erstellen Sie ein neues)
+2. Klicken Sie auf **+ Karte hinzufügen**
+3. Wählen Sie **"Entitäten"**
+4. Fügen Sie diese Entitäten hinzu:
+   - `climate.klafs_sauna` (Hauptthermostat)
+   - `time.klafs_sauna_scheduled_start_time` (Geplante Startzeit)
+   - `sensor.klafs_sauna_status` (Sauna-Status)
+5. Klicken Sie auf **"Speichern"**
 
-Für detaillierte Beispiele mit vollständigem Code, siehe die [englische Version](../en/EXAMPLES.md).
+**Die Karte zeigt:**
+- 🌡️ Temperatursteuerung mit Schieberegler
+- 🔥 Modusauswahl (Sauna / SANARIUM / Infrarot)
+- ⏰ Zeitplaner (mit Scrollrädern)
+- 🔘 Ein/Aus-Tasten
+- 📊 Echtzeit-Status
 
-## Schnellstart-Beispiele
+**YAML-Konfiguration (optional):**
+
+Wenn Sie YAML bevorzugen:
+
+```yaml
+type: entities
+title: Sauna-Steuerung
+entities:
+  - entity: climate.klafs_sauna
+  - entity: time.klafs_sauna_scheduled_start_time
+    name: Geplanter Start
+  - entity: sensor.klafs_sauna_status
+    name: Status
+```
+
+---
+
+## Verfügbare Dienste
 
 ### Sauna mit PIN einschalten
 
