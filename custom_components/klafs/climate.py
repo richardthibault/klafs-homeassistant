@@ -59,12 +59,6 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
 
     _attr_has_entity_name = True
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
-    _attr_supported_features = (
-        ClimateEntityFeature.TARGET_TEMPERATURE 
-        | ClimateEntityFeature.TURN_ON 
-        | ClimateEntityFeature.TURN_OFF
-        | ClimateEntityFeature.PRESET_MODE
-    )
     _attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT]
 
     def __init__(
@@ -75,9 +69,29 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         self._sauna_id = sauna_id
         self._attr_unique_id = f"{sauna_id}_climate"
         self._attr_name = "Sauna"
+        self._attr_min_humidity = 1
+        self._attr_max_humidity = 10
         
         # Detect available preset modes based on sauna capabilities
         self._detect_available_modes()
+    
+    @property
+    def supported_features(self) -> int:
+        """Return the list of supported features."""
+        features = (
+            ClimateEntityFeature.TARGET_TEMPERATURE 
+            | ClimateEntityFeature.TURN_ON 
+            | ClimateEntityFeature.TURN_OFF
+            | ClimateEntityFeature.PRESET_MODE
+        )
+        
+        # Add humidity control only in SANARIUM mode
+        if self.preset_mode == PRESET_SANARIUM:
+            features |= ClimateEntityFeature.TARGET_HUMIDITY
+        
+        return features
+
+
     
     def _detect_available_modes(self) -> None:
         """Detect which preset modes are available on this sauna."""
@@ -149,6 +163,34 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             return data.get("selectedSaunaTemperature")
 
     @property
+    def current_humidity(self) -> int | None:
+        """Return the current humidity (only in SANARIUM mode)."""
+        if self._sauna_id not in self.coordinator.data:
+            return None
+        
+        data = self.coordinator.data[self._sauna_id]
+        
+        # Only return humidity in SANARIUM mode
+        if data.get("sanariumSelected"):
+            return data.get("currentHumidity")
+        
+        return None
+
+    @property
+    def target_humidity(self) -> int | None:
+        """Return the target humidity (only in SANARIUM mode)."""
+        if self._sauna_id not in self.coordinator.data:
+            return None
+        
+        data = self.coordinator.data[self._sauna_id]
+        
+        # Only return humidity in SANARIUM mode
+        if data.get("sanariumSelected"):
+            return data.get("selectedHumLevel")
+        
+        return None
+
+    @property
     def hvac_mode(self) -> HVACMode:
         """Return current HVAC mode."""
         if self._sauna_id in self.coordinator.data:
@@ -211,6 +253,14 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         await self.coordinator.client.set_temperature(
             self._sauna_id, int(temperature), mode
         )
+        await self.coordinator.async_request_refresh()
+
+    async def async_set_humidity(self, humidity: int) -> None:
+        """Set new target humidity (SANARIUM mode only)."""
+        # Clamp humidity to valid range (1-10)
+        humidity = max(1, min(10, humidity))
+        
+        await self.coordinator.client.set_humidity(self._sauna_id, humidity)
         await self.coordinator.async_request_refresh()
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
