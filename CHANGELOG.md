@@ -1,160 +1,142 @@
 # Changelog
 
-Toutes les modifications notables de ce projet seront documentées dans ce fichier.
+**Read in other languages:** **English** | [Français](CHANGELOG.fr.md) | [Deutsch](CHANGELOG.de.md) | [Español](CHANGELOG.es.md)
 
-Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/),
-et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
+All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2026-01-28
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
-### Ajouté
-- Intégration initiale avec l'API Klafs
-- Authentification via identifiants Klafs Sauna App
-- **Support multi-saunas** : Gérez plusieurs saunas depuis un seul compte
-- **Code PIN individuel par sauna** : Chaque sauna peut avoir son propre PIN
-- **Config flow en 3 étapes** : Identifiants → Sélection saunas → Configuration PINs
-- Entité Climate (thermostat) pour contrôler chaque sauna
-- Capteurs de température, humidité et statut par sauna
-- Interrupteur pour basculer entre modes Sauna et SANARIUM par sauna
-- Service `power_on_with_pin` pour allumer avec un PIN spécifique
-- Service `set_humidity_level` pour contrôler l'humidité (SANARIUM)
-- Service `set_start_time` pour programmer l'heure de démarrage
-- Support des modes : Sauna classique, SANARIUM, Infrarouge
-- Polling automatique toutes les 60 secondes
-- Détection automatique de tous les saunas du compte
-- Configuration via interface utilisateur (Config Flow)
-- Traductions en français et anglais
-- Documentation complète (README, API, exemples, dépannage, multi-saunas)
-- Support HACS pour installation facile
-- Gestion automatique de la reconnexion en cas d'expiration de session
-
-### Fonctionnalités
-- Contrôle de la température (10-100°C selon le mode)
-- Allumage/extinction à distance
-- Surveillance en temps réel de la température et humidité
-- Statut de connexion du sauna
-- Indication "Ready" quand le sauna est prêt
-- Attributs étendus (mode actif, niveau d'humidité, etc.)
-- Limites de température adaptées au mode sélectionné
-
-### Sécurité
-- Stockage sécurisé des identifiants
-- Support du code PIN obligatoire pour l'allumage
-- Gestion des tentatives de connexion échouées
-- Communication HTTPS uniquement
-
-### Documentation
-- README.md : Documentation principale
-- INSTALLATION.md : Guide d'installation détaillé
-- API_DOCUMENTATION.md : Documentation technique de l'API
-- EXAMPLES.md : Exemples d'automatisations et cartes Lovelace
-- TROUBLESHOOTING.md : Guide de dépannage
-- PROJECT_STRUCTURE.md : Architecture du projet
-- CHANGELOG.md : Historique des versions
-
-## [Non publié]
-
-### Prévu pour les versions futures
-
-## [1.0.1] - 2026-02-09
-
-### Corrigé
-- **Bug critique de reconnexion** : Le sauna n'était plus détecté après une perte de connexion WiFi
-  - Le coordinateur garde maintenant les saunas dans les données même quand déconnectés
-  - Gestion d'erreur améliorée par sauna individuel
-  - Les entités restent disponibles et se reconnectent automatiquement
-  - Plus besoin de désinstaller/réinstaller l'intégration après une perte de connexion
-
-## [1.0.0] - 2026-01-28
-- Support du mode Infrarouge complet
-- Capteur de temps de bain restant
-- Service pour définir la durée de bain
-- Notifications push quand le sauna est prêt
-- Graphiques de consommation énergétique (si disponible via API)
-
-#### [1.2.0] - À venir
-- Support de plusieurs comptes Klafs
-- Entité Number pour contrôler l'humidité via slider
-- Entité Select pour choisir le mode (Sauna/SANARIUM/IR)
-- Presets de température (Finlandais, Doux, Intense, etc.)
-- Historique des sessions de sauna
-
-#### [2.0.0] - À venir
-- Support de l'API locale si Klafs la rend disponible
-- Réduction de la latence avec WebSocket si disponible
-- Support des saunas multi-zones
-- Intégration avec les systèmes de ventilation
-- Support des éclairages et aromathérapie si disponibles
-
-### Idées en discussion
-- Intégration avec calendrier pour planification automatique
-- Détection de présence pour allumage automatique
-- Statistiques d'utilisation et rapports
-- Support des profils utilisateurs multiples
-- Mode économie d'énergie intelligent
-- Intégration avec capteurs de qualité d'air
-
-## Notes de version
-
-### Version 1.0.0
-
-Cette première version stable offre toutes les fonctionnalités de base pour contrôler votre sauna Klafs via Home Assistant. L'intégration a été développée en se basant sur l'ingénierie inverse de l'API Klafs utilisée par l'application mobile officielle.
-
-**Points forts :**
-- Configuration simple via l'interface utilisateur
-- Support complet des modes Sauna et SANARIUM
-- Services personnalisés pour un contrôle avancé
-- Documentation exhaustive
-- Compatible HACS
-
-**Limitations connues :**
-- Polling toutes les 60 secondes (pas de push en temps réel)
-- Dépend du cloud Klafs (pas de contrôle local)
-- Mode Infrarouge partiellement testé
-- Pas de support des fonctionnalités avancées (éclairage, aromathérapie)
-
-**Compatibilité :**
-- Home Assistant 2023.1.0 ou supérieur
-- Python 3.10 ou supérieur
-- Tous les saunas Klafs avec module Wi-Fi et option "KLAFS Sauna App"
-
-**Remerciements :**
-- Communauté OpenHAB pour la recherche initiale sur l'API
-- Projet IPSymconKlafsSaunaControl pour les exemples d'implémentation
-- Contributeurs et testeurs de la communauté Home Assistant
-
-## Migration
-
-### Depuis une version antérieure
-
-Aucune migration nécessaire - c'est la première version stable.
-
-### Depuis d'autres intégrations
-
-Si vous utilisez actuellement une autre méthode pour contrôler votre sauna Klafs (scripts, REST commands, etc.), vous pouvez migrer vers cette intégration :
-
-1. Sauvegardez vos automatisations existantes
-2. Installez cette intégration
-3. Configurez avec vos identifiants Klafs
-4. Mettez à jour vos automatisations pour utiliser les nouvelles entités
-5. Supprimez l'ancienne configuration
-
-## Support
-
-Pour signaler un bug ou demander une fonctionnalité :
-- GitHub Issues : https://github.com/richardthibault/klafs-homeassistant/issues
-- Forum Home Assistant : https://community.home-assistant.io
-
-## Contribution
-
-Les contributions sont les bienvenues ! Consultez PROJECT_STRUCTURE.md pour comprendre l'architecture du projet.
+**For planned future features, see [FUTURELOG.md](FUTURELOG.md)**
 
 ---
 
-**Légende :**
-- `Ajouté` : Nouvelles fonctionnalités
-- `Modifié` : Changements dans les fonctionnalités existantes
-- `Déprécié` : Fonctionnalités bientôt supprimées
-- `Supprimé` : Fonctionnalités supprimées
-- `Corrigé` : Corrections de bugs
-- `Sécurité` : Corrections de vulnérabilités
+## [1.0.1] - 2026-02-09
+
+### Fixed
+- **Critical reconnection bug**: Sauna was no longer detected after WiFi connection loss
+  - Coordinator now keeps saunas in data even when disconnected
+  - Improved error handling per individual sauna
+  - Entities remain available and reconnect automatically
+  - No longer need to uninstall/reinstall integration after connection loss
+
+### Release Notes
+
+This version fixes a critical bug that prevented automatic sauna reconnection after WiFi connection loss. The coordinator now maintains entities even when the sauna is disconnected, allowing transparent reconnection.
+
+---
+
+## [1.0.0] - 2026-01-28
+
+### Added
+- Initial integration with Klafs API
+- Authentication via Klafs Sauna App credentials
+- **Multi-sauna support**: Manage multiple saunas from a single account
+- **Individual PIN code per sauna**: Each sauna can have its own PIN
+- **3-step config flow**: Credentials → Sauna selection → PIN configuration
+- Climate entity (thermostat) to control each sauna
+- Temperature, humidity and status sensors per sauna
+- Switch to toggle between Sauna and SANARIUM modes per sauna
+- `power_on_with_pin` service to turn on with specific PIN
+- `set_humidity_level` service to control humidity (SANARIUM)
+- `set_start_time` service to schedule start time
+- Support for modes: Classic Sauna, SANARIUM, Infrared
+- Automatic polling every 60 seconds
+- Automatic detection of all account saunas
+- Configuration via user interface (Config Flow)
+- French and English translations
+- Complete documentation (README, API, examples, troubleshooting, multi-sauna)
+- HACS support for easy installation
+- Automatic reconnection handling on session expiration
+
+### Features
+- Temperature control (10-100°C depending on mode)
+- Remote power on/off
+- Real-time temperature and humidity monitoring
+- Sauna connection status
+- "Ready" indication when sauna is ready
+- Extended attributes (active mode, humidity level, etc.)
+- Temperature limits adapted to selected mode
+
+### Security
+- Secure credential storage
+- Mandatory PIN code support for power on
+- Failed login attempt handling
+- HTTPS communication only
+
+### Documentation
+- README.md: Main documentation
+- INSTALLATION.md: Detailed installation guide
+- API_DOCUMENTATION.md: Technical API documentation
+- EXAMPLES.md: Automation examples and Lovelace cards
+- TROUBLESHOOTING.md: Troubleshooting guide
+- MULTI_SAUNA_SUPPORT.md: Multi-sauna guide
+- CHANGELOG.md: Version history
+
+### Release Notes
+
+This first stable version offers all basic features to control your Klafs sauna via Home Assistant. The integration was developed based on reverse engineering of the Klafs API used by the official mobile application.
+
+**Highlights:**
+- Simple configuration via user interface
+- Full support for Sauna and SANARIUM modes
+- Custom services for advanced control
+- Comprehensive documentation
+- HACS compatible
+
+**Known Limitations:**
+- Polling every 60 seconds (no real-time push)
+- Depends on Klafs cloud (no local control)
+- Infrared mode partially tested
+- No support for advanced features (lighting, aromatherapy)
+
+**Compatibility:**
+- Home Assistant 2023.1.0 or higher
+- Python 3.10 or higher
+- All Klafs saunas with Wi-Fi module and "KLAFS Sauna App" option
+
+**Acknowledgments:**
+- OpenHAB community for initial API research
+- IPSymconKlafsSaunaControl project for implementation examples
+- Home Assistant community contributors and testers
+
+---
+
+## Migration
+
+### From Previous Version
+
+#### From 1.0.0 to 1.0.1
+No action required. Simply update via HACS and restart Home Assistant.
+
+### From Other Integrations
+
+If you currently use another method to control your Klafs sauna (scripts, REST commands, etc.), you can migrate to this integration:
+
+1. Backup your existing automations
+2. Install this integration
+3. Configure with your Klafs credentials
+4. Update your automations to use the new entities
+5. Remove the old configuration
+
+---
+
+## Support
+
+To report a bug or request a feature:
+- GitHub Issues: https://github.com/richardthibault/klafs-homeassistant/issues
+- Home Assistant Forum: https://community.home-assistant.io
+
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) to understand the project architecture.
+
+---
+
+**Legend:**
+- `Added`: New features
+- `Changed`: Changes in existing features
+- `Deprecated`: Features to be removed soon
+- `Removed`: Removed features
+- `Fixed`: Bug fixes
+- `Security`: Security vulnerability fixes
