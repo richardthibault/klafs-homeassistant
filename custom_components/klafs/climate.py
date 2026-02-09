@@ -87,14 +87,9 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
             | ClimateEntityFeature.PRESET_MODE
         )
         
-        # Add humidity control only in SANARIUM mode AND when humidity is valid
+        # Add humidity control only in SANARIUM mode
         if self.preset_mode == PRESET_SANARIUM:
-            # Only show humidity control if we have valid data
-            if self._sauna_id in self.coordinator.data:
-                data = self.coordinator.data[self._sauna_id]
-                # Check if sauna is powered on (humidity only works when active)
-                if data.get("isPoweredOn", False):
-                    features |= ClimateEntityFeature.TARGET_HUMIDITY
+            features |= ClimateEntityFeature.TARGET_HUMIDITY
         
         return features
 
