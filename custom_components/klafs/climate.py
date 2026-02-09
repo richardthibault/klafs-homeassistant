@@ -253,7 +253,8 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         await self.coordinator.client.set_temperature(
             self._sauna_id, int(temperature), mode
         )
-        await self.coordinator.async_request_refresh()
+        # Force immediate refresh
+        await self.coordinator.async_refresh()
 
     async def async_set_humidity(self, humidity: int) -> None:
         """Set new target humidity (SANARIUM mode only)."""
@@ -261,7 +262,8 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         humidity = max(1, min(10, humidity))
         
         await self.coordinator.client.set_humidity(self._sauna_id, humidity)
-        await self.coordinator.async_request_refresh()
+        # Force immediate refresh
+        await self.coordinator.async_refresh()
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
         """Set new preset mode (Sauna/SANARIUM/Infrared)."""
@@ -275,8 +277,8 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         # Change mode on the sauna
         await self.coordinator.client.set_mode(self._sauna_id, mode)
         
-        # Wait for coordinator to update with new mode
-        await self.coordinator.async_request_refresh()
+        # Force immediate refresh to update UI quickly
+        await self.coordinator.async_refresh()
         
         # The API automatically restores the preferred temperature for each mode
         # selectedSaunaTemperature is used for Sauna and IR modes
@@ -292,7 +294,8 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
         elif hvac_mode == HVACMode.OFF:
             await self.coordinator.client.power_off(self._sauna_id)
 
-        await self.coordinator.async_request_refresh()
+        # Force immediate refresh
+        await self.coordinator.async_refresh()
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:

@@ -80,7 +80,8 @@ class KlafsSaunaScheduledStartTime(CoordinatorEntity, TimeEntity):
         await self.coordinator.client.set_start_time(
             self._sauna_id, value.hour, value.minute, time_set=True
         )
-        await self.coordinator.async_request_refresh()
+        # Force immediate refresh
+        await self.coordinator.async_refresh()
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
