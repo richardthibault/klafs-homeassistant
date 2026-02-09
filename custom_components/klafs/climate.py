@@ -334,6 +334,14 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
 
         # Force immediate refresh
         await self.coordinator.async_refresh()
+        
+        # Schedule additional refresh after 5 seconds to catch delayed state changes
+        import asyncio
+        async def delayed_refresh():
+            await asyncio.sleep(5)
+            await self.coordinator.async_refresh()
+        
+        asyncio.create_task(delayed_refresh())
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
