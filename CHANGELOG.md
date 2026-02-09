@@ -11,6 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.9] - 2026-02-09
+
+### Fixed
+- **HACS deployment**: Fixed `hacs.json` with `content_in_root: false` to ensure all files are deployed
+- This fixes the issue where `frontend/icons/` directory was not copied by HACS
+
+### Changed
+- Simplified `hacs.json` (removed redundant fields that belong in manifest.json)
+
+---
+
 ## [1.0.8] - 2026-02-09
 
 ### Fixed
