@@ -56,7 +56,16 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ### Prévu pour les versions futures
 
-#### [1.1.0] - À venir
+## [1.0.1] - 2026-02-09
+
+### Corrigé
+- **Bug critique de reconnexion** : Le sauna n'était plus détecté après une perte de connexion WiFi
+  - Le coordinateur garde maintenant les saunas dans les données même quand déconnectés
+  - Gestion d'erreur améliorée par sauna individuel
+  - Les entités restent disponibles et se reconnectent automatiquement
+  - Plus besoin de désinstaller/réinstaller l'intégration après une perte de connexion
+
+## [1.0.0] - 2026-01-28
 - Support du mode Infrarouge complet
 - Capteur de temps de bain restant
 - Service pour définir la durée de bain

@@ -177,29 +177,57 @@ class KlafsDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self):
         """Update data via library."""
         _LOGGER.debug("Starting data update for Klafs")
+        
+        # Always try to maintain previous data
+        data = {}
+        
         try:
             if not self.client.is_authenticated:
                 _LOGGER.debug("Client not authenticated, logging in")
                 await self.client.login()
 
             # Update status for configured saunas only
-            data = {}
             _LOGGER.debug("Configured saunas: %s", list(self.saunas_config.keys()))
             
             for sauna_id in self.saunas_config:
-                _LOGGER.debug("Fetching status for sauna: %s", sauna_id)
-                status = await self.client.get_sauna_status(sauna_id)
-                if status:
-                    data[sauna_id] = status
-                    _LOGGER.debug("Got status for sauna %s: isPoweredOn=%s, currentTemp=%s", 
-                                sauna_id[:8], status.get("isPoweredOn"), status.get("currentTemperature"))
-                else:
-                    _LOGGER.warning("No status returned for sauna: %s", sauna_id)
+                try:
+                    _LOGGER.debug("Fetching status for sauna: %s", sauna_id)
+                    status = await self.client.get_sauna_status(sauna_id)
+                    if status:
+                        data[sauna_id] = status
+                        _LOGGER.debug("Got status for sauna %s: isPoweredOn=%s, currentTemp=%s", 
+                                    sauna_id[:8], status.get("isPoweredOn"), status.get("currentTemperature"))
+                    else:
+                        # Keep sauna in data even if disconnected to maintain entities
+                        _LOGGER.warning("No status returned for sauna: %s, marking as disconnected", sauna_id)
+                        data[sauna_id] = {
+                            "isConnected": False,
+                            "isPoweredOn": False,
+                            "currentTemperature": None,
+                            "currentHumidity": None,
+                            "statusCode": 3,  # Disconnected
+                            "isReadyForUse": False,
+                        }
+                except Exception as sauna_err:
+                    # If individual sauna fails, keep it as disconnected
+                    _LOGGER.error("Error fetching status for sauna %s: %s", sauna_id[:8], sauna_err)
+                    data[sauna_id] = {
+                        "isConnected": False,
+                        "isPoweredOn": False,
+                        "currentTemperature": None,
+                        "currentHumidity": None,
+                        "statusCode": 3,  # Disconnected
+                        "isReadyForUse": False,
+                    }
 
             _LOGGER.info("Data update completed, got data for %d sauna(s)", len(data))
             return data
         except Exception as err:
             _LOGGER.exception("Error updating data: %s", err)
+            # Return previous data if available to keep entities alive
+            if self.data:
+                _LOGGER.warning("Returning previous data to maintain entities")
+                return self.data
             raise UpdateFailed(f"Error communicating with API: {err}") from err
     
     def get_sauna_pin(self, sauna_id: str) -> str | None:
