@@ -168,22 +168,12 @@ class KlafsSaunaClimate(CoordinatorEntity, ClimateEntity):
     def current_humidity(self) -> int | None:
         """Return the current humidity (only in SANARIUM mode).
         
-        Returns None if humidity is 0 (invalid sentinel value) to display "--" in UI.
+        Always returns None to hide current humidity from climate entity.
+        Current humidity is available in the separate humidity sensor instead.
+        This avoids displaying confusing "0%" when sauna is off.
         """
-        if self._sauna_id not in self.coordinator.data:
-            return None
-        
-        data = self.coordinator.data[self._sauna_id]
-        
-        # Only return humidity in SANARIUM mode
-        if data.get("sanariumSelected"):
-            humidity = data.get("currentHumidity")
-            # Filter out invalid humidity values (0% is physically impossible)
-            # Return None so HA displays "--" instead of 0%
-            if humidity is None or humidity == 0:
-                return None
-            return humidity
-        
+        # Don't display current humidity in climate entity
+        # It's available in sensor.klafs_sauna_humidity instead
         return None
 
     @property
