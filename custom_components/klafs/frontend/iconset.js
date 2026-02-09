@@ -3,58 +3,60 @@
  * 
  * This file registers custom SVG icons with the prefix "klafs:"
  * Compatible with Home Assistant >= 2023.x
+ * 
+ * INSTALLATION:
+ * Add this file as a Lovelace resource:
+ * 1. Go to Settings > Dashboards > Resources (top right menu)
+ * 2. Add resource: /local/klafs/iconset.js
+ * 3. Resource type: JavaScript Module
+ * 4. Refresh browser (Ctrl+F5)
  */
 
-// Wait for Home Assistant to be fully loaded
-if (!customElements.get('ha-icon')) {
-  console.warn('[Klafs Icons] ha-icon not yet defined, waiting...');
-}
+console.info('[Klafs Icons] Loading custom icon set...');
 
-// Function to load and register icons
-async function loadKlafsIcons() {
-  try {
-    // Get the icon manager from Home Assistant
-    const iconManager = window.frontendVersion ? window : customElements.get('ha-icon');
-    
-    if (!iconManager) {
-      console.error('[Klafs Icons] Icon manager not available');
-      return;
-    }
+// Define custom icons
+const KLAFS_ICONS = {
+  'sauna': '/local/klafs/icons/sauna.svg',
+  'sauna-heating': '/local/klafs/icons/sauna-heating.svg',
+  'sauna-ready': '/local/klafs/icons/sauna-ready.svg',
+  'sauna-off': '/local/klafs/icons/sauna-off.svg'
+};
 
-    // Define the icon set
-    const iconSet = {
-      name: 'klafs',
-      icons: {
-        'sauna': '/local/klafs/icons/sauna.svg',
-        'sauna-heating': '/local/klafs/icons/sauna-heating.svg',
-        'sauna-ready': '/local/klafs/icons/sauna-ready.svg',
-        'sauna-off': '/local/klafs/icons/sauna-off.svg'
-      }
-    };
-
-    // Register icons with Home Assistant
-    if (window.customIconsets) {
-      window.customIconsets.klafs = iconSet.icons;
-    } else {
-      window.customIconsets = { klafs: iconSet.icons };
-    }
-
-    console.info('[Klafs Icons] Successfully registered icon set with prefix "klafs:"');
-    console.debug('[Klafs Icons] Available icons:', Object.keys(iconSet.icons));
-    
-  } catch (error) {
-    console.error('[Klafs Icons] Error loading icon set:', error);
+// Function to register icons with Home Assistant
+function registerKlafsIcons() {
+  // Method 1: Register with customIconsets (HA 2023+)
+  if (!window.customIconsets) {
+    window.customIconsets = {};
   }
+  window.customIconsets.klafs = KLAFS_ICONS;
+  
+  // Method 2: Register with customIcons (fallback)
+  if (!window.customIcons) {
+    window.customIcons = {};
+  }
+  Object.keys(KLAFS_ICONS).forEach(name => {
+    window.customIcons[`klafs:${name}`] = KLAFS_ICONS[name];
+  });
+  
+  console.info('[Klafs Icons] Registered icon set with prefix "klafs:"');
+  console.info('[Klafs Icons] Available icons:', Object.keys(KLAFS_ICONS).map(k => `klafs:${k}`));
+  
+  // Dispatch event to notify Home Assistant
+  window.dispatchEvent(new Event('klafs-icons-loaded'));
 }
 
-// Load icons when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadKlafsIcons);
+// Wait for Home Assistant to be ready
+if (customElements.get('home-assistant')) {
+  registerKlafsIcons();
 } else {
-  loadKlafsIcons();
+  window.addEventListener('load', () => {
+    setTimeout(registerKlafsIcons, 100);
+  });
 }
 
-// Also try to load when Home Assistant is ready
-window.addEventListener('load', () => {
-  setTimeout(loadKlafsIcons, 1000);
-});
+// Also register when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', registerKlafsIcons);
+} else {
+  registerKlafsIcons();
+}

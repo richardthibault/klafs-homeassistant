@@ -11,6 +11,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.0.7] - 2026-02-09
+
+### Fixed
+- **Icon loading method**: Replaced deprecated `add_extra_js_url()` with manual Lovelace resource registration
+- **Static path registration**: Fixed incorrect file path registration for iconset.js
+- **Icon registration**: Improved compatibility with Home Assistant 2023+ icon system
+
+### Changed
+- Custom icons now require manual Lovelace resource addition (see CUSTOM_ICONS.md)
+- Updated iconset.js with multiple registration methods for better compatibility
+- Enhanced logging for icon registration debugging
+
+### Documentation
+- Added comprehensive troubleshooting guide in all 4 languages (EN/FR/DE/ES)
+- Step-by-step instructions for adding Lovelace resource
+- Browser console debugging tips
+
+---
+
 ## [1.0.6] - 2026-02-09
 
 ### Fixed

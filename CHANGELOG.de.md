@@ -11,6 +11,25 @@ und dieses Projekt folgt [Semantic Versioning](https://semver.org/lang/de/).
 
 ---
 
+## [1.0.7] - 2026-02-09
+
+### Behoben
+- **Icon-Lademethode**: Veraltetes `add_extra_js_url()` durch manuelle Lovelace-Ressourcen-Registrierung ersetzt
+- **Statische Pfad-Registrierung**: Fehlerhafte Dateipfad-Registrierung für iconset.js korrigiert
+- **Icon-Registrierung**: Verbesserte Kompatibilität mit Home Assistant 2023+ Icon-System
+
+### Geändert
+- Benutzerdefinierte Symbole erfordern jetzt manuelle Lovelace-Ressourcen-Hinzufügung (siehe CUSTOM_ICONS.de.md)
+- iconset.js mit mehreren Registrierungsmethoden für bessere Kompatibilität aktualisiert
+- Verbesserte Protokollierung für Icon-Registrierungs-Debugging
+
+### Dokumentation
+- Umfassende Fehlerbehebungsanleitung in allen 4 Sprachen hinzugefügt (EN/FR/DE/ES)
+- Schritt-für-Schritt-Anleitung zum Hinzufügen von Lovelace-Ressourcen
+- Browser-Konsolen-Debugging-Tipps
+
+---
+
 ## [1.0.6] - 2026-02-09
 
 ### Behoben

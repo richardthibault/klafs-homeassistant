@@ -70,14 +70,56 @@ entities:
 
 ### Les icônes ne s'affichent pas ?
 
+**Étape 1 : Vérifier les fichiers déployés**
+- Vérifier que les fichiers SVG existent dans `custom_components/klafs/`
+- Vérifier que `frontend/iconset.js` existe
+
+**Étape 2 : Ajouter la ressource Lovelace (REQUIS)**
+1. Aller dans **Paramètres** > **Tableaux de bord** > **Ressources** (menu ⋮ en haut à droite)
+2. Cliquer sur **+ AJOUTER UNE RESSOURCE**
+3. URL : `/local/klafs/iconset.js`
+4. Type de ressource : **Module JavaScript**
+5. Cliquer sur **CRÉER**
+
+**Étape 3 : Vider le cache et recharger**
 1. Redémarrer Home Assistant
-2. Vider le cache navigateur (Ctrl+F5)
-3. Vérifier la console navigateur (F12) pour erreurs
-4. Tester l'URL : `http://votre-ha.local:8123/local/klafs/icons/sauna.svg`
+2. Vider le cache navigateur (Ctrl+F5 ou Shift+F5)
+3. Recharger la page
+
+**Étape 4 : Vérifier dans la console navigateur**
+1. Appuyer sur F12 pour ouvrir les Outils de développement
+2. Aller dans l'onglet Console
+3. Chercher : `[Klafs Icons] Registered icon set`
+4. Si absent, vérifier les erreurs
+
+**Étape 5 : Tester les URLs des icônes**
+- Tester : `http://votre-ip-ha:8123/local/klafs/icons/sauna.svg`
+- Devrait afficher l'icône SVG
+
+**Étape 6 : Vérifier les icônes des entités**
+1. Aller dans Outils de développement > États
+2. Trouver vos entités Klafs
+3. Vérifier l'attribut `icon`
+4. Devrait afficher `klafs:sauna-xxx`
+
+### Toujours pas fonctionnel ?
+
+**Option A : Utiliser les icônes MDI de secours**
+L'intégration basculera automatiquement vers les icônes Material Design si les icônes personnalisées ne se chargent pas.
+
+**Option B : Forcer l'icône manuellement**
+```yaml
+type: entities
+entities:
+  - entity: climate.klafs_sauna
+    icon: mdi:sauna
+```
 
 ### Besoin d'aide ?
 
-Consultez la documentation complète dans `_dev/ICONS_INSTALLATION_GUIDE.md`
+- Vérifier les logs Home Assistant pour les erreurs "Klafs"
+- Consulter la documentation complète dans `_dev/ICONS_INSTALLATION_GUIDE.md`
+- Signaler les problèmes sur GitHub
 
 ---
 

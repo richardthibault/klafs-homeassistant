@@ -267,18 +267,28 @@ async def _register_custom_icons(hass: HomeAssistant) -> None:
         )
         _LOGGER.debug("Registered static path: /local/klafs/icons -> %s", integration_path)
         
-        # Register static path for iconset.js
+        # Register static path for frontend directory (for iconset.js)
         hass.http.register_static_path(
-            "/local/klafs/iconset.js",
-            str(frontend_path / "iconset.js"),
+            "/local/klafs",
+            str(frontend_path),
             cache_headers=False,  # Don't cache JS to allow updates
         )
-        _LOGGER.debug("Registered static path: /local/klafs/iconset.js")
+        _LOGGER.debug("Registered static path: /local/klafs -> %s", frontend_path)
         
-        # Add the iconset JS to the frontend
-        hass.components.frontend.add_extra_js_url(hass, "/local/klafs/iconset.js")
+        # Register the iconset as a Lovelace resource
+        try:
+            await hass.services.async_call(
+                "lovelace",
+                "reload_resources",
+                {},
+                blocking=False,
+            )
+            _LOGGER.debug("Triggered Lovelace resources reload")
+        except Exception as lovelace_err:
+            _LOGGER.debug("Could not reload Lovelace resources: %s", lovelace_err)
         
-        _LOGGER.info("Klafs custom icons registered successfully")
+        _LOGGER.info("Klafs custom icons registered successfully - icons available at /local/klafs/icons/")
+        _LOGGER.info("To use custom icons, add as Lovelace resource: /local/klafs/iconset.js (JavaScript Module)")
         
     except Exception as err:
         _LOGGER.error("Failed to register custom icons: %s", err)

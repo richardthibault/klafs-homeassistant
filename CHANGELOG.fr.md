@@ -11,6 +11,25 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ---
 
+## [1.0.7] - 2026-02-09
+
+### Corrigé
+- **Méthode de chargement des icônes** : Remplacement de `add_extra_js_url()` obsolète par l'enregistrement manuel de ressource Lovelace
+- **Enregistrement du chemin statique** : Correction de l'enregistrement incorrect du chemin fichier pour iconset.js
+- **Enregistrement des icônes** : Amélioration de la compatibilité avec le système d'icônes Home Assistant 2023+
+
+### Modifié
+- Les icônes custom nécessitent maintenant l'ajout manuel d'une ressource Lovelace (voir CUSTOM_ICONS.fr.md)
+- Mise à jour de iconset.js avec plusieurs méthodes d'enregistrement pour une meilleure compatibilité
+- Amélioration des logs pour le débogage de l'enregistrement des icônes
+
+### Documentation
+- Ajout d'un guide de dépannage complet dans les 4 langues (EN/FR/DE/ES)
+- Instructions étape par étape pour ajouter la ressource Lovelace
+- Conseils de débogage via la console navigateur
+
+---
+
 ## [1.0.6] - 2026-02-09
 
 ### Corrigé

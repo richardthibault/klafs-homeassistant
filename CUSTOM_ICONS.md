@@ -70,14 +70,56 @@ entities:
 
 ### Icons not showing?
 
+**Step 1: Verify files are deployed**
+- Check that SVG files exist in `custom_components/klafs/`
+- Check that `frontend/iconset.js` exists
+
+**Step 2: Add Lovelace Resource (REQUIRED)**
+1. Go to **Settings** > **Dashboards** > **Resources** (⋮ menu top right)
+2. Click **+ ADD RESOURCE**
+3. URL: `/local/klafs/iconset.js`
+4. Resource type: **JavaScript Module**
+5. Click **CREATE**
+
+**Step 3: Clear cache and reload**
 1. Restart Home Assistant
-2. Clear browser cache (Ctrl+F5)
-3. Check browser console (F12) for errors
-4. Test URL: `http://your-ha.local:8123/local/klafs/icons/sauna.svg`
+2. Clear browser cache (Ctrl+F5 or Shift+F5)
+3. Reload the page
+
+**Step 4: Verify in browser console**
+1. Press F12 to open Developer Tools
+2. Go to Console tab
+3. Look for: `[Klafs Icons] Registered icon set`
+4. If not present, check for errors
+
+**Step 5: Test icon URLs**
+- Test: `http://your-ha-ip:8123/local/klafs/icons/sauna.svg`
+- Should display the SVG icon
+
+**Step 6: Check entity icons**
+1. Go to Developer Tools > States
+2. Find your Klafs entities
+3. Check the `icon` attribute
+4. Should show `klafs:sauna-xxx`
+
+### Still not working?
+
+**Option A: Use MDI icons as fallback**
+The integration will automatically fall back to Material Design Icons if custom icons fail to load.
+
+**Option B: Manual icon override**
+```yaml
+type: entities
+entities:
+  - entity: climate.klafs_sauna
+    icon: mdi:sauna
+```
 
 ### Need more help?
 
-See the complete documentation in `_dev/ICONS_INSTALLATION_GUIDE.md`
+- Check Home Assistant logs for "Klafs" errors
+- See complete documentation in `_dev/ICONS_INSTALLATION_GUIDE.md`
+- Report issues on GitHub
 
 ---
 
